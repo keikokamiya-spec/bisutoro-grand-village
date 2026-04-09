@@ -1,0 +1,19 @@
+/*
+Theme Name: 8thOcean
+Author: 8th-ocean
+Author URI: http://www.8th-ocean.co.jp/
+Version: 0.1.0
+*/
+
+@charset "UTF-8";
+
+@import url("./css/bootstrap.css");
+@import url("./css/bootstrap-responsive.css");
+@import url("./css/font-awesome.css");
+@import url("./css/flexslider.css?202112");
+@import url("./css/magnific-popup.css");
+
+/*WP DEFAULT*/
+
+ img.aligncenter
+,img.alignnone{ display: block; margin: 0 auto 15px; }

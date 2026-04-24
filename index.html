@@ -65,7 +65,12 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 <script type="text/javascript" src="js/masonry.pkgd.min.js" id="8thOcean-masonry-js"></script>
 <script type="text/javascript" src="js/custom.js" id="8thOcean-custom-js"></script>
 
- 
+<script>
+  (() => {
+    const d=document,s=d.createElement("script");s.type="module";
+    s.src="https://w.behold.so/widget.js";d.head.append(s);
+  })();
+</script>
 
 </head>
 <body id="home">
@@ -160,29 +165,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 <section id="home_blog">
   <div class="container">
     <h3 class="common">インスタグラム<span>Instagram Updates</span></h3>
-    <div class="row">
-        <div class="span4 item">
-          <div class="posts">
-            <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" class="mouseonfade">
-              <img src="images/assets/slide1.jpg" alt="Instagram 1" />
-            </a>
-          </div><!--/.posts-->
-        </div><!--/.span4-->
-        <div class="span4 item">
-          <div class="posts">
-            <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" class="mouseonfade">
-              <img src="images/assets/slide2.jpg" alt="Instagram 2" />
-            </a>
-          </div><!--/.posts-->
-        </div><!--/.span4-->
-        <div class="span4 item">
-          <div class="posts">
-            <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" class="mouseonfade">
-              <img src="images/assets/slide3.jpg" alt="Instagram 3" />
-            </a>
-          </div><!--/.posts-->
-        </div><!--/.span4-->
-    </div><!--/.row-->
+    <behold-widget feed-id="lb2drNmkH9yYiftIAmYC"></behold-widget>
     <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" class="more">Instagramを見る</a>
   </div><!--/.container-->
 </section>

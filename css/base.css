@@ -303,6 +303,15 @@ img.photo {
 img.prof_photo {
   border-radius: 50%; }
 
+.kokuban-menu-images {
+  max-width: 980px;
+  margin: 0 auto; }
+  .kokuban-menu-images img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 24px; }
+
 /*シェフプロフィール*/
 section#home_profile h4 {
   font-size: 22px;
@@ -443,6 +452,18 @@ a.more {
     color: #fff; }
   a.more.top_info {
     margin: 0 0 10px; }
+
+.home_banners {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px; }
+  .home_banners a {
+    display: block;
+    flex: 1; }
+  .home_banners img {
+    display: block;
+    width: 100%;
+    height: auto; }
 
 /*下層ページメニュー*/
 #fixed_end {
@@ -955,6 +976,11 @@ p.balloon {
 
   section#main, section#home_instagram, section#home_profile, section#home_concept, section#home_access {
     padding: 25px 15px; }
+
+  .home_banners {
+    display: block; }
+    .home_banners a {
+      margin-bottom: 14px; }
 
   body.category-information section#main {
     display: none; }

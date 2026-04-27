@@ -26,6 +26,13 @@ jQuery(function() {
         }
     });
 
+    jQuery('#fixed_header .header_menu a').on('click', function() {
+        var href = jQuery(this).attr('href');
+        if (href && href !== '#' && href.indexOf('tel:') !== 0) {
+            window.location.href = href;
+        }
+    });
+
     jQuery('a.gallery').magnificPopup({
         //delegate: 'a', // ポップアップを開く子要素
         type: 'image',
@@ -57,4 +64,3 @@ jQuery(window).on('load',function(){
       itemSelector: '.item',
     });
 });
-

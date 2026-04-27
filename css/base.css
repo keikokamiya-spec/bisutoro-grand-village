@@ -885,7 +885,8 @@ p.balloon {
     color: #4b5c2c;
     text-align: center;
     font-size: 12px;
-    line-height: 150%; }
+    line-height: 150%;
+    z-index: 1002; }
     header#fixed_header a#menu_bars i#menu_close {
       display: none; }
   header#fixed_header a.menu_bars_close i#menu_open {
@@ -905,7 +906,8 @@ p.balloon {
     color: #4b5c2c;
     text-align: center;
     font-size: 12px;
-    line-height: 150%; }
+    line-height: 150%;
+    z-index: 1002; }
   header#fixed_header a#menu_bars i, header#fixed_header a#sp_phone i {
     font-size: 26px;
     margin-top: 11px;
@@ -918,7 +920,9 @@ p.balloon {
     position: fixed;
     top: 70px;
     left: 0;
-    width: 100%; }
+    width: 100%;
+    z-index: 1001;
+    pointer-events: auto; }
     header#fixed_header ul.header_menu li a {
       display: block;
       padding: 20px 0;
@@ -926,7 +930,8 @@ p.balloon {
       color: #fff;
       border: solid #37461d;
       border-width: 1px 0 0 0;
-      text-align: center; }
+      text-align: center;
+      pointer-events: auto; }
       header#fixed_header ul.header_menu li a:hover {
         background: #37461d; }
     header#fixed_header ul.header_menu li:first-child a {

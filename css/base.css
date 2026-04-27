@@ -457,11 +457,10 @@ a.more {
   display: flex;
   gap: 16px;
   margin-top: 24px; }
-  .home_banners a {
-    display: block;
-    flex: 1; }
   .home_banners img {
     display: block;
+    flex: 1;
+    min-width: 0;
     width: 100%;
     height: auto; }
 
@@ -979,7 +978,7 @@ p.balloon {
 
   .home_banners {
     display: block; }
-    .home_banners a {
+    .home_banners img {
       margin-bottom: 14px; }
 
   body.category-information section#main {

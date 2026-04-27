@@ -49,7 +49,7 @@ br.clear {
 
 section#main {
   padding: 25px 0; }
-section#home_blog {
+section#home_instagram {
   padding: 40px 0;
   background: url("../images/home_blog_bg.jpg") left top;
   background-size: 500px; }
@@ -277,7 +277,7 @@ h3.common {
     margin-top: 10px;
     color: #aaa; }
 
-#home_blog h3.common {
+#home_instagram h3.common {
   color: #fff; }
 
 .box {
@@ -953,8 +953,11 @@ p.balloon {
     width: 100%;
     padding: 0 0 20px; }
 
-  section#main, section#home_blog, section#home_profile, section#home_concept, section#home_access {
+  section#main, section#home_instagram, section#home_profile, section#home_concept, section#home_access {
     padding: 25px 15px; }
+
+  body.category-information section#main {
+    display: none; }
 
   /*Tags*/
   div.tags a {

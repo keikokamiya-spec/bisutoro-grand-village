@@ -43,9 +43,9 @@ jQuery(function() {
         }, 
     });
 
-    jQuery('.pg-gal > ul').each(function() {
+    jQuery('.pg-gal > ul, .photos-slider').each(function() {
         var $track = jQuery(this);
-        var $slides = $track.children('li');
+        var $slides = $track.children('li, figure');
         var $status = jQuery('<div class="gallery-slider-status" aria-hidden="true"><span>1 / ' + $slides.length + '</span></div>');
         var ticking = false;
 

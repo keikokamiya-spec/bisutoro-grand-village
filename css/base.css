@@ -786,16 +786,20 @@ table.time {
 
 dl.photos dt, dl.photos dd {
   margin-bottom: 15px; }
-dl.photos dt {
+dl.photos dt,
+.photos-section-title {
   padding: 10px 0 10px 15px;
+  margin: 0 0 15px;
   font-size: 22px;
+  line-height: 1.2;
   border-left: 5px solid #4b5c2c;
   background: #ededed;
   background: -moz-linear-gradient(left, #ededed 0%, white 100%);
   background: -webkit-linear-gradient(left, #ededed 0%, white 100%);
   background: linear-gradient(to right, #ededed 0%, white 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=1 ); }
-  dl.photos dt span {
+  dl.photos dt span,
+  .photos-section-title span {
     font-weight: normal;
     margin-top: 10px;
     display: block;
@@ -803,6 +807,13 @@ dl.photos dt {
     line-height: 100%;
     color: #aaa;
     text-transform: capitalize; }
+.photos-section {
+  margin-bottom: 15px; }
+.photos-slider figure {
+  margin: 0 0 15px; }
+.photos-slider img {
+  width: 100%;
+  height: auto; }
 
 p.balloon {
   font-size: 1.2em;
@@ -1129,9 +1140,31 @@ p.balloon {
     font-size: 12px;
     line-height: 1; }
 
-  dl.photos dt {
+  .photos-slider {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin: 0 -15px 10px;
+    padding: 0 15px 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; }
+    .photos-slider::-webkit-scrollbar {
+      display: none; }
+    .photos-slider figure {
+      flex: 0 0 88%;
+      margin: 0;
+      scroll-snap-align: center; }
+      .photos-slider figure img {
+        height: 280px;
+        object-fit: cover;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18); }
+
+  dl.photos dt,
+  .photos-section-title {
     font-size: 18px; }
-    dl.photos dt span {
+    dl.photos dt span,
+    .photos-section-title span {
       font-size: 10px; } }
 /* 画面サイズが320以下の時のCSS */
 /* 高精細ディスプレイ（Retina等）対応 */

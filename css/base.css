@@ -883,10 +883,9 @@ p.balloon {
     transition: transform .5s; }
   header#fixed_header ul li a:hover::after {
     transform: scale(1, 1); }
-  header#fixed_header ul li.current_page_item a::after {
+  header#fixed_header ul li.active a::after {
     transform: scale(1, 1); }
-  header#fixed_header ul li.menu-item-home a::after {
-    transform: scale(0, 1) !important; } }
+}
 /* 画面サイズが768以上の時のCSS（PCのみ） */
 @media (min-width: 768px) {
   img.pc_right {

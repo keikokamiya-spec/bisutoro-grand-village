@@ -4,7 +4,8 @@ Template Name: ワインリスト
 */
 get_header();
 bgv_render_page_title('Wine List');
-$has_cpt_menu = bgv_has_visible_cpt_items('wine_menu');
+$has_acf_menu = bgv_has_page_menu_items('wine', get_the_ID());
+$acf_menu_count = count(bgv_get_page_menu_items('wine', get_the_ID()));
 $wine_categories = array(
   'red_wine' => '赤ワイン',
   'white_wine' => '白ワイン',
@@ -18,9 +19,9 @@ $wine_categories = array(
       <div class="span12">
         <article>
           <div class="single-page">
-            <?php if ($has_cpt_menu) : ?>
+            <?php if ($has_acf_menu && $acf_menu_count >= 25) : ?>
               <p align="right">※全て税込み価格になります。</p>
-              <?php bgv_render_cpt_menu_items('wine_menu', 'menu', 'wine_category', $wine_categories); ?>
+              <?php bgv_render_page_acf_menu_items('wine', 'menu', $wine_categories, get_the_ID()); ?>
             <?php else : ?>
               <?php echo bgv_static_default_content('wine.html'); ?>
             <?php endif; ?>

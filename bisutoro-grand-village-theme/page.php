@@ -9,6 +9,9 @@ $default_file = '';
 if ($slug === 'dinner') {
   $title = 'Food Menu';
   $default_file = 'food.html';
+} elseif ($slug === 'lunch' || $slug === 'category-lunch') {
+  $title = 'ランチ';
+  $default_file = 'category-lunch.html';
 } elseif ($slug === 'gallery') {
   $title = 'Gallery';
 } elseif ($slug === 'interior-exterior') {
@@ -53,7 +56,11 @@ bgv_render_page_title($title);
           <article>
             <div class="single-page">
               <?php if ($default_file) : ?>
-                <?php echo bgv_static_default_content($default_file); ?>
+                <?php if ($default_file === 'category-lunch.html') : ?>
+                  <?php bgv_render_lunch_pdf_text_menu(); ?>
+                <?php else : ?>
+                  <?php echo bgv_static_default_content($default_file); ?>
+                <?php endif; ?>
               <?php elseif ($slug === 'interior-exterior') : ?>
                 <div class="photos interior-exterior-photos">
                   <section class="photos-section">

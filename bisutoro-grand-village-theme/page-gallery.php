@@ -6,33 +6,26 @@ get_header();
 bgv_render_page_title('Gallery');
 
 $gallery_images = array();
-for ($i = 1; $i <= 70; $i++) {
+$default_gallery_files = bgv_default_gallery_files();
+for ($i = 1; $i <= count($default_gallery_files); $i++) {
   $image_id = bgv_get_field('gallery_image_' . $i, 0, get_the_ID());
-  if (! $image_id || ! is_numeric($image_id)) {
+  $default_file = $default_gallery_files[$i - 1];
+  $default_alt = 'ギャラリー' . $i;
+
+  if ($image_id && is_numeric($image_id)) {
+    $gallery_images[] = array(
+      'type' => 'attachment',
+      'id' => (int) $image_id,
+      'alt' => bgv_get_field('gallery_image_' . $i . '_alt', $default_alt, get_the_ID()),
+    );
     continue;
   }
 
   $gallery_images[] = array(
-    'type' => 'attachment',
-    'id' => (int) $image_id,
-    'alt' => bgv_get_field('gallery_image_' . $i . '_alt', 'ギャラリー' . $i, get_the_ID()),
+    'type' => 'default',
+    'url' => bgv_asset_uri('assets/images/auto_gal/' . rawurlencode($default_file)),
+    'alt' => bgv_get_field('gallery_image_' . $i . '_alt', $default_alt, get_the_ID()),
   );
-}
-
-if (empty($gallery_images)) {
-  $default_images = glob(bgv_asset_path('assets/images/auto_gal/*.{jpg,jpeg,JPG,JPEG,png,PNG}'), GLOB_BRACE);
-  if (! is_array($default_images)) {
-    $default_images = array();
-  }
-  sort($default_images, SORT_NATURAL | SORT_FLAG_CASE);
-  foreach ($default_images as $index => $image_path) {
-    $file = basename($image_path);
-    $gallery_images[] = array(
-      'type' => 'default',
-      'url' => bgv_asset_uri('assets/images/auto_gal/' . rawurlencode($file)),
-      'alt' => 'ギャラリー' . ($index + 1),
-    );
-  }
 }
 ?>
 <section id="main">
@@ -63,4 +56,3 @@ if (empty($gallery_images)) {
   </div>
 </section>
 <?php get_footer(); ?>
-

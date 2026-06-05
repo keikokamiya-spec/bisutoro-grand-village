@@ -4,7 +4,7 @@ if (! defined('ABSPATH')) {
   exit;
 }
 
-define('BGV_THEME_VERSION', '1.1');
+define('BGV_THEME_VERSION', '2.5');
 
 require_once get_template_directory() . '/inc/custom-post-types.php';
 require_once get_template_directory() . '/inc/acf-fields.php';
@@ -211,6 +211,32 @@ function bgv_get_visible_cpt_items($post_type) {
     return ($order_a < $order_b) ? -1 : 1;
   });
 
+  if ($prefix === 'kids') {
+    $items = bgv_apply_kids_pdf_prices($items);
+  }
+
+  return $items;
+}
+
+function bgv_apply_kids_pdf_prices($items) {
+  foreach ($items as &$item) {
+    $name = isset($item['name']) ? wp_strip_all_tags((string) $item['name']) : '';
+    if ($name === '') {
+      continue;
+    }
+
+    if (strpos($name, 'トマトスパゲッティ') !== false) {
+      $item['price'] = '900';
+    } elseif (strpos($name, 'カルボナーラ') !== false) {
+      $item['price'] = '900';
+    } elseif (strpos($name, 'クリームリゾット') !== false) {
+      $item['price'] = '900';
+    } elseif (strpos($name, 'ハンバーグ') !== false) {
+      $item['price'] = '1100';
+    }
+  }
+  unset($item);
+
   return $items;
 }
 
@@ -270,6 +296,512 @@ function bgv_render_cpt_menu_items($post_type, $class_name = 'menu', $group_fiel
   <?php
 
   return true;
+}
+
+function bgv_menu_item_image_url($image) {
+  if (is_array($image) && ! empty($image['url'])) {
+    return $image['url'];
+  }
+
+  if (is_numeric($image)) {
+    $url = wp_get_attachment_image_url((int) $image, 'full');
+    return $url ? $url : '';
+  }
+
+  return is_string($image) ? $image : '';
+}
+
+function bgv_normalize_acf_menu_item($item, $category = '') {
+  if (! is_array($item)) {
+    return array();
+  }
+
+  $name = isset($item['item_name']) ? $item['item_name'] : '';
+  $price = isset($item['item_price']) ? $item['item_price'] : '';
+  $image = isset($item['item_image']) ? $item['item_image'] : '';
+  $url = isset($item['item_link_url']) ? $item['item_link_url'] : '';
+  $description = isset($item['item_description']) ? $item['item_description'] : '';
+  $item_category = isset($item['item_category']) ? $item['item_category'] : $category;
+
+  if ($name === '' && $price === '' && $description === '' && empty($image) && $url === '') {
+    return array();
+  }
+
+  return array(
+    'name' => $name,
+    'price' => $price,
+    'image' => bgv_menu_item_image_url($image),
+    'url' => $url,
+    'description' => $description,
+    'category' => $item_category,
+  );
+}
+
+function bgv_get_page_menu_items($prefix, $post_id = null) {
+  $post_id = $post_id ? $post_id : get_the_ID();
+  $items = array();
+
+  $repeater_items = bgv_get_field($prefix . '_items', array(), $post_id);
+  if (is_array($repeater_items) && ! empty($repeater_items)) {
+    foreach ($repeater_items as $item) {
+      $normalized = bgv_normalize_acf_menu_item($item);
+      if (! empty($normalized)) {
+        $items[] = $normalized;
+      }
+    }
+  }
+
+  for ($i = 1; $i <= 80; $i++) {
+    $fixed_item = array(
+      'item_name' => bgv_get_field($prefix . '_item_' . $i . '_name', '', $post_id),
+      'item_price' => bgv_get_field($prefix . '_item_' . $i . '_price', '', $post_id),
+      'item_description' => bgv_get_field($prefix . '_item_' . $i . '_description', '', $post_id),
+      'item_image' => bgv_get_field($prefix . '_item_' . $i . '_image', '', $post_id),
+      'item_link_url' => bgv_get_field($prefix . '_item_' . $i . '_link_url', '', $post_id),
+      'item_category' => bgv_get_field($prefix . '_item_' . $i . '_category', '', $post_id),
+    );
+    $normalized = bgv_normalize_acf_menu_item($fixed_item);
+    if (! empty($normalized)) {
+      $items[] = $normalized;
+    }
+  }
+
+  return $items;
+}
+
+function bgv_has_page_menu_items($prefix, $post_id = null) {
+  return ! empty(bgv_get_page_menu_items($prefix, $post_id));
+}
+
+function bgv_render_page_acf_menu_items($prefix, $class_name = 'menu', $category_labels = array(), $post_id = null) {
+  $items = bgv_get_page_menu_items($prefix, $post_id);
+  if (empty($items)) {
+    return false;
+  }
+
+  if (! empty($category_labels)) {
+    $groups = array();
+    foreach ($category_labels as $key => $label) {
+      $groups[$key] = array();
+    }
+
+    foreach ($items as $item) {
+      $category = isset($item['category']) && $item['category'] !== '' ? $item['category'] : 'other';
+      if (! isset($groups[$category])) {
+        $groups[$category] = array();
+        $category_labels[$category] = $category;
+      }
+      $groups[$category][] = $item;
+    }
+  } else {
+    $groups = array('' => $items);
+  }
+
+  ?>
+  <dl class="<?php echo esc_attr($class_name); ?>">
+    <?php foreach ($groups as $category => $group_items) : ?>
+      <?php if (empty($group_items)) : ?>
+        <?php continue; ?>
+      <?php endif; ?>
+      <?php if (! empty($category_labels)) : ?>
+        <dt class="cate"><?php echo esc_html(isset($category_labels[$category]) ? $category_labels[$category] : $category); ?></dt>
+      <?php endif; ?>
+      <?php foreach ($group_items as $item) : ?>
+        <?php if (! empty($item['name']) || ! empty($item['description'])) : ?>
+          <dt>
+            <?php echo bgv_linked_name(esc_html($item['name']), $item['image'], $item['url']); ?>
+            <?php if (! empty($item['description'])) : ?>
+              <p><?php echo wp_kses_post(nl2br($item['description'])); ?></p>
+            <?php endif; ?>
+          </dt>
+        <?php endif; ?>
+        <?php if (! empty($item['price'])) : ?>
+          <dd><?php echo wp_kses_post($item['price']); ?></dd>
+        <?php endif; ?>
+      <?php endforeach; ?>
+    <?php endforeach; ?>
+  </dl>
+  <?php
+
+  return true;
+}
+
+function bgv_default_lunch_rich_sections() {
+  return array(
+    array(
+      'label' => 'A',
+      'title' => '',
+      'description' => '',
+      'items' => array(
+        array(
+          'name' => '・スパゲッティ　シラスのペペロンチーノ<br />〜柚子胡椒風味〜',
+          'note' => '大盛り＋２００円',
+          'price' => '1450',
+        ),
+      ),
+      'note' => '',
+    ),
+    array(
+      'label' => 'B',
+      'title' => '',
+      'description' => '',
+      'items' => array(
+        array(
+          'name' => '①あべ鶏のグリルと彩り野菜　〜粒マスタードソース〜',
+          'note' => '＊バゲット又はライスをお選び下さい',
+          'price' => '<span>１５０g・・・・・・</span>1500<br /><span>２００g・・・・・・</span>1800<br /><span>２５０g・・・・・・</span>2100',
+        ),
+        array(
+          'name' => '②牛ハラミのグリルと彩り野菜　〜グレイビーソース〜',
+          'note' => '＊バゲット又はライスをお選び下さい',
+          'price' => '<span>１５０g・・・・・・</span>2100<br /><span>２００g・・・・・・</span>2700<br /><span>２５０g・・・・・・</span>3300',
+        ),
+      ),
+      'note' => '',
+    ),
+    array(
+      'label' => 'C',
+      'title' => '',
+      'description' => '',
+      'items' => array(
+        array(
+          'name' => '・７品目のワンプレートランチ',
+          'note' => '・白トリ貝のソテー　〜カレー風味〜<br />・イタリア産　生ハム<br />・オレンジ風味のキャロットラペ<br />・カニミソとマスカルポーネチーズのディップ 又は豚肉のリエット<br />・ジャガイモのパルミジャーノチーズ和え<br />・オムレツとトマトソース<br />・国産鶏のグリル　〜粒マスタードソース〜',
+          'price' => '1750',
+        ),
+      ),
+      'note' => '',
+    ),
+    array(
+      'label' => '',
+      'title' => '',
+      'description' => '',
+      'items' => array(
+        array('name' => '＊ランチ限定', 'note' => '', 'price' => ''),
+        array('name' => '生ビール、ハイボール<br />スパークリングワイン、白ワイン、赤ワイン', 'note' => '', 'price' => 'ALL650円'),
+        array('name' => '＊お会計はテーブルチェックでお願い致します。 ＊ランチタイムは現金のみとさせていただきます。', 'note' => '', 'price' => ''),
+        array('name' => '（全てサラダ、スープ、バゲット付き）', 'note' => '', 'price' => ''),
+        array('name' => 'コーヒー、紅茶', 'note' => '', 'price' => '＋350'),
+        array('name' => 'デザート', 'note' => '', 'price' => '＋400'),
+        array('name' => 'バゲットの追加', 'note' => '', 'price' => '＋200'),
+        array('name' => '（全て税込み価格）', 'note' => '', 'price' => ''),
+      ),
+      'note' => '',
+    ),
+  );
+}
+
+function bgv_lunch_field($section_index, $field, $default = '', $post_id = null) {
+  return bgv_get_field('lunch_section_' . $section_index . '_' . $field, $default, $post_id);
+}
+
+function bgv_lunch_item_field($section_index, $item_index, $field, $default = '', $post_id = null) {
+  return bgv_get_field('lunch_section_' . $section_index . '_item_' . $item_index . '_' . $field, $default, $post_id);
+}
+
+function bgv_has_lunch_acf_values($post_id = null) {
+  if (! function_exists('get_field')) {
+    return false;
+  }
+
+  $post_id = $post_id ? $post_id : get_the_ID();
+  $section_fields = array('label', 'title', 'description', 'note');
+  $item_fields = array('name', 'description', 'note', 'price', 'image', 'link_url');
+
+  for ($section_index = 1; $section_index <= 5; $section_index++) {
+    foreach ($section_fields as $field) {
+      $value = get_field('lunch_section_' . $section_index . '_' . $field, $post_id);
+      if ($value !== null && $value !== '' && $value !== false) {
+        return true;
+      }
+    }
+
+    for ($item_index = 1; $item_index <= 12; $item_index++) {
+      foreach ($item_fields as $field) {
+        $value = get_field('lunch_section_' . $section_index . '_item_' . $item_index . '_' . $field, $post_id);
+        if (! empty($value)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+function bgv_get_lunch_sections($post_id = null) {
+  $post_id = $post_id ? $post_id : get_the_ID();
+  $defaults = bgv_default_lunch_rich_sections();
+  $sections = array();
+
+  foreach ($defaults as $section_index => $default_section) {
+    $acf_index = $section_index + 1;
+    $default_items = isset($default_section['items']) ? $default_section['items'] : array();
+    $items = array();
+
+    for ($item_index = 1; $item_index <= 12; $item_index++) {
+      $default_item = isset($default_items[$item_index - 1]) ? $default_items[$item_index - 1] : array();
+      $name = bgv_lunch_item_field($acf_index, $item_index, 'name', isset($default_item['name']) ? $default_item['name'] : '', $post_id);
+      $description = bgv_lunch_item_field($acf_index, $item_index, 'description', isset($default_item['description']) ? $default_item['description'] : '', $post_id);
+      $note = bgv_lunch_item_field($acf_index, $item_index, 'note', isset($default_item['note']) ? $default_item['note'] : '', $post_id);
+      $price = bgv_lunch_item_field($acf_index, $item_index, 'price', isset($default_item['price']) ? $default_item['price'] : '', $post_id);
+      $image = bgv_lunch_item_field($acf_index, $item_index, 'image', '', $post_id);
+      $url = bgv_lunch_item_field($acf_index, $item_index, 'link_url', '', $post_id);
+
+      if ($name === '' && $description === '' && $note === '' && $price === '' && empty($image) && $url === '') {
+        continue;
+      }
+
+      $items[] = array(
+        'name' => $name,
+        'description' => $description,
+        'note' => $note,
+        'price' => $price,
+        'image' => bgv_menu_item_image_url($image),
+        'url' => $url,
+      );
+    }
+
+    $label = bgv_lunch_field($acf_index, 'label', isset($default_section['label']) ? $default_section['label'] : '', $post_id);
+    $title = bgv_lunch_field($acf_index, 'title', isset($default_section['title']) ? $default_section['title'] : '', $post_id);
+    $description = bgv_lunch_field($acf_index, 'description', isset($default_section['description']) ? $default_section['description'] : '', $post_id);
+    $note = bgv_lunch_field($acf_index, 'note', isset($default_section['note']) ? $default_section['note'] : '', $post_id);
+
+    if ($label === '' && $title === '' && $description === '' && $note === '' && empty($items)) {
+      continue;
+    }
+
+    $sections[] = array(
+      'label' => $label,
+      'title' => $title,
+      'description' => $description,
+      'items' => $items,
+      'note' => $note,
+    );
+  }
+
+  return $sections;
+}
+
+function bgv_render_lunch_sections($sections) {
+  if (empty($sections)) {
+    return false;
+  }
+
+  ?>
+  <dl class="menu lunch-menu-list">
+    <?php foreach ($sections as $section) : ?>
+      <?php if (! empty($section['label'])) : ?>
+        <dt class="cate"><?php echo wp_kses_post($section['label']); ?></dt>
+      <?php endif; ?>
+      <?php if (! empty($section['title'])) : ?>
+        <dt class="<?php echo esc_attr(bgv_lunch_text_class($section['title'])); ?>"><?php echo wp_kses_post(nl2br($section['title'])); ?></dt>
+      <?php endif; ?>
+      <?php if (! empty($section['description'])) : ?>
+        <dt class="<?php echo esc_attr(bgv_lunch_text_class($section['description'])); ?>"><?php echo wp_kses_post(nl2br($section['description'])); ?></dt>
+      <?php endif; ?>
+      <?php foreach ((isset($section['items']) ? $section['items'] : array()) as $item) : ?>
+        <?php if (! empty($item['name'])) : ?>
+          <dt class="<?php echo esc_attr(bgv_lunch_text_class($item['name'])); ?>"><?php echo bgv_linked_name(wp_kses_post(nl2br($item['name'])), $item['image'], $item['url']); ?></dt>
+        <?php endif; ?>
+        <?php if (! empty($item['description'])) : ?>
+          <dt class="<?php echo esc_attr(bgv_lunch_text_class($item['description'])); ?>"><?php echo wp_kses_post(nl2br($item['description'])); ?></dt>
+        <?php endif; ?>
+        <?php if (! empty($item['note'])) : ?>
+          <dt class="<?php echo esc_attr(bgv_lunch_text_class($item['note'])); ?>"><?php echo wp_kses_post(nl2br($item['note'])); ?></dt>
+        <?php endif; ?>
+        <?php if (! empty($item['price'])) : ?>
+          <dd class="lunch-price"><?php echo wp_kses_post(nl2br($item['price'])); ?></dd>
+        <?php endif; ?>
+      <?php endforeach; ?>
+      <?php if (! empty($section['note'])) : ?>
+        <dt class="<?php echo esc_attr(bgv_lunch_text_class($section['note'])); ?>"><?php echo wp_kses_post(nl2br($section['note'])); ?></dt>
+      <?php endif; ?>
+    <?php endforeach; ?>
+  </dl>
+  <?php
+
+  return true;
+}
+
+function bgv_lunch_text_class($text) {
+  $plain = wp_strip_all_tags((string) $text);
+  $red_keywords = array(
+    '全てサラダ',
+    'バゲット又はライス',
+    'ランチ限定',
+    'お会計',
+    'ランチタイム',
+    '現金',
+    '全て税込',
+  );
+
+  foreach ($red_keywords as $keyword) {
+    if (strpos($plain, $keyword) !== false) {
+      return 'lunch-text-red';
+    }
+  }
+
+  return '';
+}
+
+function bgv_lunch_pdf_pages() {
+  $pages = array();
+
+  for ($i = 1; $i <= 1; $i++) {
+    $file = sprintf('assets/images/lunch-pdf/lunch-menu-page-%02d.png', $i);
+
+    $pages[] = array(
+      'src' => bgv_asset_uri($file) . '?ver=' . rawurlencode(BGV_THEME_VERSION),
+      'alt' => 'ランチメニュー PDF ' . $i . 'ページ目',
+    );
+  }
+
+  return $pages;
+}
+
+function bgv_render_lunch_pdf_menu() {
+  $lunch_pdf_pages = bgv_lunch_pdf_pages();
+  if (empty($lunch_pdf_pages)) {
+    return false;
+  }
+
+  ?>
+  <div class="single-page lunch-pdf-menu">
+    <ol>
+      <?php foreach ($lunch_pdf_pages as $index => $page) : ?>
+        <li>
+          <img src="<?php echo esc_url($page['src']); ?>" alt="<?php echo esc_attr($page['alt']); ?>" width="1191" height="1684"<?php echo $index > 0 ? ' loading="lazy"' : ' fetchpriority="high"'; ?> decoding="async" />
+        </li>
+      <?php endforeach; ?>
+    </ol>
+  </div>
+  <?php
+
+  return true;
+}
+
+function bgv_render_lunch_pdf_text_menu() {
+  ?>
+  <div class="single-page lunch-pdf-text-menu" aria-label="ランチメニュー">
+    <h2>Lunch Menu</h2>
+
+    <div class="lunch-top-note lunch-red">（全てサラダ、スープ、バゲット付き）</div>
+
+    <div class="lunch-addons">
+      <p><span>コーヒー、紅茶</span><strong>＋350</strong></p>
+      <p><span>デザート</span><strong>＋400</strong></p>
+      <p><span>バゲットの追加</span><strong>＋200</strong></p>
+      <p class="lunch-red">（全て税込み価格）</p>
+    </div>
+
+    <section class="lunch-block lunch-block-a">
+      <h3>A</h3>
+      <div class="lunch-main">
+        <p>・スパゲッティ　シラスのペペロンチーノ</p>
+        <p class="lunch-center">〜柚子胡椒風味〜</p>
+      </div>
+      <p class="lunch-extra">大盛り＋２００円</p>
+      <p class="lunch-price">1450</p>
+    </section>
+
+    <section class="lunch-block lunch-block-b">
+      <h3>B</h3>
+      <div class="lunch-b-item">
+        <p class="lunch-dish">①あべ鶏のグリルと彩り野菜　　〜粒マスタードソース〜</p>
+        <p class="lunch-red">＊バゲット又はライスをお選び下さい</p>
+        <div class="lunch-grams">
+          <p><span>１５０g・・・・・・</span><strong>1500</strong></p>
+          <p><span>２００g・・・・・・</span><strong>1800</strong></p>
+          <p><span>２５０g・・・・・・</span><strong>2100</strong></p>
+        </div>
+      </div>
+      <div class="lunch-b-item">
+        <p class="lunch-dish">②牛ハラミのグリルと彩り野菜　　〜グレイビーソース〜</p>
+        <p class="lunch-red">＊バゲット又はライスをお選び下さい</p>
+        <div class="lunch-grams">
+          <p><span>１５０g・・・・・・</span><strong>2100</strong></p>
+          <p><span>２００g・・・・・・</span><strong>2700</strong></p>
+          <p><span>２５０g・・・・・・</span><strong>3300</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="lunch-block lunch-block-c">
+      <h3>C</h3>
+      <div class="lunch-c-list">
+        <p>・７品目のワンプレートランチ</p>
+        <p>・白トリ貝のソテー　〜カレー風味〜</p>
+        <p>・イタリア産　生ハム</p>
+        <p>・オレンジ風味のキャロットラペ</p>
+        <p>・カニミソとマスカルポーネチーズのディップ <span class="lunch-red-inline">又は</span>豚肉のリエット</p>
+        <p>・ジャガイモのパルミジャーノチーズ和え</p>
+        <p>・オムレツとトマトソース</p>
+        <p>・国産鶏のグリル　〜粒マスタードソース〜</p>
+      </div>
+      <p class="lunch-price">1750</p>
+    </section>
+
+    <div class="lunch-bottom">
+      <div class="lunch-dinner-note">
+        <p>＊ディナーメニューもご用意可能です！</p>
+        <p>スタッフまでお気軽にお尋ねください。</p>
+        <p>（在庫がないメニューもある場合がございます）</p>
+      </div>
+      <div class="lunch-limited">
+        <p class="lunch-red">＊ランチ限定</p>
+        <p><span>生ビール、ハイボール</span><strong>ALL650円</strong></p>
+        <p>スパークリングワイン、白ワイン、赤ワイン</p>
+      </div>
+    </div>
+
+    <p class="lunch-check-note lunch-red">＊お会計はテーブルチェックでお願い致します。 ＊ランチタイムは現金のみとさせていただきます。</p>
+
+    <div class="lunch-logo">
+      <img src="<?php echo esc_url(bgv_asset_uri('assets/images/assets/logo_footer.png')); ?>" alt="Bistrot Grand Village" width="160" height="112" loading="lazy" decoding="async" />
+    </div>
+  </div>
+  <?php
+
+  return true;
+}
+
+function bgv_lunch_pdf_menu_html() {
+  ob_start();
+  $rendered = bgv_render_lunch_pdf_text_menu();
+  $html = ob_get_clean();
+
+  return $rendered ? $html : '';
+}
+
+function bgv_render_kids_soft_drink_note() {
+  ?>
+  <div class="kids-soft-drink-note">
+    <p class="kids-soft-drink-title">ソフトドリンクお選びください。</p>
+    <p>・リンゴジュース</p>
+    <p>・オレンジジュース</p>
+    <p>・マンゴージュース</p>
+    <p>・ウーロン茶</p>
+  </div>
+  <?php
+}
+
+function bgv_default_gallery_files() {
+  return array(
+    '01.jpg', '02.jpg', '03.jpg', 'IMG_0164.jpg', 'IMG_0660.jpg', 'IMG_0926.jpg',
+    'IMG_1013.jpg', 'IMG_1014.jpg', 'IMG_1038.jpg', 'IMG_1055.jpg', 'IMG_1059.jpg', 'IMG_1597.jpg',
+    'IMG_1680.jpg', 'IMG_2240.jpg', 'IMG_2253.jpg', 'IMG_2256.jpg', 'IMG_2269.jpg', 'IMG_7034.jpg',
+    'IMG_7356.jpg', 'IMG_7368.jpg', 'IMG_7369.jpg', 'IMG_7373.jpg', 'IMG_7505.jpg', 'IMG_7508.jpg',
+    'IMG_7509.jpg', 'IMG_7525.jpg', 'IMG_7527.jpg', 'IMG_7578.jpg', 'IMG_7594.jpg', 'IMG_7729.jpg',
+    'IMG_8627.jpg', 'IMG_8675.jpg', 'IMG_9932.jpg', 'IMG_9933.jpg', 'IMG_9934.jpg', 'IMG_9936.jpg',
+    '545E568C-E844-4F8C-9A32-F4E51A350470.JPG', '5E3F733A-5269-4A42-9A1C-62AF0CD7912C.JPG',
+    'IMG_0069.JPG', 'IMG_0401.JPG', 'IMG_2252.JPG', 'IMG_2254.JPG', 'IMG_2259.JPG', 'IMG_2260.JPG',
+    'IMG_2339.JPG', 'IMG_2340.JPG', 'IMG_2371.JPG', 'IMG_2393.JPG', 'IMG_2394.JPG', 'IMG_2396.JPG',
+    'IMG_2437.JPG', 'IMG_2445.JPG', 'IMG_7265.JPG', 'IMG_7312.JPG', 'IMG_7469.JPG', 'IMG_7559.JPG',
+    'IMG_7764.JPG', 'IMG_8175.JPG', 'IMG_8302.JPG', 'IMG_8332.JPG', 'IMG_8436.JPG', 'IMG_8611.JPG',
+    'IMG_8661.JPG', 'IMG_8662.JPG', 'IMG_9697.JPG', 'IMG_9935.JPG', 'IMG_9940.JPG', 'IMG_9942.JPG',
+    'IMG_9943.JPG', 'IMG_9944.JPG',
+  );
 }
 
 function bgv_render_linked_food_items() {
@@ -430,11 +962,7 @@ function bgv_default_lunch_sections() {
     array('title' => 'C', 'items' => array(
       array('name' => '・７品目のワンプレートランチ<br />・白トリ貝のソテー　〜カレー風味〜<br />・イタリア産　生ハム<br />・オレンジ風味のキャロットラペ<br />・カニミソとマスカルポーネチーズのディップ 又は豚肉のリエット<br />・ジャガイモのパルミジャーノチーズ和え<br />・オムレツとトマトソース<br />・国産鶏のグリル　〜粒マスタードソース〜', 'price' => '1750'),
     )),
-    array('title' => 'D(数量限定)', 'items' => array(
-      array('name' => '・牛すじカレー<br />(サラダ・スープ付)', 'price' => '￥1300'),
-    )),
     array('title' => 'ランチ限定・追加', 'items' => array(
-      array('name' => '＊ディナーメニューもご用意可能です！<br />スタッフまでお気軽にお尋ねください。<br />（在庫がないメニューもある場合がございます）'),
       array('name' => '＊ランチ限定<br />生ビール、ハイボール<br />スパークリングワイン、白ワイン、赤ワイン', 'price' => 'ALL650円'),
       array('name' => '＊お会計はテーブルチェックでお願い致します。 ＊ランチタイムは現金のみとさせていただきます。'),
       array('name' => '（全てサラダ、スープ、バゲット付き）'),
@@ -448,11 +976,11 @@ function bgv_default_lunch_sections() {
 
 function bgv_default_kids_sections() {
   return array(array('title' => 'お子様セットメニュー', 'subtitle' => 'kids set', 'items' => array(
-    array('name' => '（全てバゲット、ソフトドリンク、バニラアイス付き）'),
-    array('name' => 'ベーコンとキノコのトマトスパゲッティ', 'price' => '1,000'),
-    array('name' => 'みんな大好き カルボナーラ', 'price' => '1,000'),
-    array('name' => 'いろいろキノコのクリームリゾット', 'price' => '1,000'),
-    array('name' => '煮込みハンバーグのデミグラスソース', 'price' => '1,200'),
+    array('name' => '（全てバゲット又はライス、ソフトドリンク、バニラアイス付き）'),
+    array('name' => 'ベーコンとキノコのトマトスパゲッティ', 'price' => '900'),
+    array('name' => 'みんな大好き カルボナーラ', 'price' => '900'),
+    array('name' => 'いろいろキノコのクリームリゾット', 'price' => '900'),
+    array('name' => '煮込みハンバーグのデミグラスソース', 'price' => '1100'),
   )));
 }
 

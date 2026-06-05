@@ -51,7 +51,7 @@ function bgv_nav_items() {
   return array(
     array('label' => '黒板メニュー', 'slug' => 'category-kokuban'),
     array('label' => 'ランチ', 'slug' => 'category-lunch'),
-    array('label' => 'ディナーメニュー', 'slug' => 'food'),
+    array('label' => 'ディナー', 'slug' => 'food'),
     array('label' => 'お子様セット', 'slug' => 'kids'),
     array('label' => 'ドリンク', 'slug' => 'drink'),
     array('label' => 'ワインリスト', 'slug' => 'wine'),

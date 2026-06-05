@@ -72,6 +72,194 @@ function bgv_acf_menu_fields($prefix, $with_category = false, $category_choices 
   return $fields;
 }
 
+function bgv_acf_page_menu_fields($prefix, $label, $with_category = false, $category_choices = array()) {
+  $fields = array(
+    array(
+      'key' => 'field_bgv_' . $prefix . '_items_note',
+      'label' => $label . '入力について',
+      'name' => $prefix . '_items_note',
+      'type' => 'message',
+      'message' => 'ACF無料版で編集できるよう、メニュー入力欄を80件分用意しています。入力した項目だけフロント画面に表示されます。',
+    ),
+  );
+
+  for ($i = 1; $i <= 80; $i++) {
+    $fields[] = array(
+      'key' => 'field_bgv_' . $prefix . '_item_' . $i . '_name',
+      'label' => $label . $i . '：メニュー名',
+      'name' => $prefix . '_item_' . $i . '_name',
+      'type' => 'text',
+    );
+    if ($with_category) {
+      $fields[] = array(
+        'key' => 'field_bgv_' . $prefix . '_item_' . $i . '_category',
+        'label' => $label . $i . '：カテゴリ',
+        'name' => $prefix . '_item_' . $i . '_category',
+        'type' => 'select',
+        'choices' => $category_choices,
+        'allow_null' => 1,
+        'ui' => 1,
+        'return_format' => 'value',
+      );
+    }
+    $fields[] = array(
+      'key' => 'field_bgv_' . $prefix . '_item_' . $i . '_price',
+      'label' => $label . $i . '：料金',
+      'name' => $prefix . '_item_' . $i . '_price',
+      'type' => 'text',
+    );
+    $fields[] = array(
+      'key' => 'field_bgv_' . $prefix . '_item_' . $i . '_description',
+      'label' => $label . $i . '：説明文',
+      'name' => $prefix . '_item_' . $i . '_description',
+      'type' => 'textarea',
+      'rows' => 3,
+      'new_lines' => 'br',
+    );
+    $fields[] = array(
+      'key' => 'field_bgv_' . $prefix . '_item_' . $i . '_image',
+      'label' => $label . $i . '：画像',
+      'name' => $prefix . '_item_' . $i . '_image',
+      'type' => 'image',
+      'return_format' => 'id',
+      'preview_size' => 'thumbnail',
+    );
+    $fields[] = array(
+      'key' => 'field_bgv_' . $prefix . '_item_' . $i . '_link_url',
+      'label' => $label . $i . '：リンク先URL',
+      'name' => $prefix . '_item_' . $i . '_link_url',
+      'type' => 'url',
+    );
+  }
+
+  return $fields;
+}
+
+function bgv_acf_lunch_section_fields() {
+  $fields = array(
+    array(
+      'key' => 'field_bgv_lunch_sections_note',
+      'label' => 'ランチ入力について',
+      'name' => 'lunch_sections_note',
+      'type' => 'message',
+      'message' => '基準サイトのA/B/C/Dランチ、注意書き、追加料金を保持したまま編集できます。未入力の項目は基準サイトの内容で表示されます。',
+    ),
+  );
+
+  $defaults = function_exists('bgv_default_lunch_rich_sections') ? bgv_default_lunch_rich_sections() : array();
+  for ($section_index = 1; $section_index <= 5; $section_index++) {
+    $default_section = isset($defaults[$section_index - 1]) ? $defaults[$section_index - 1] : array();
+    $section_label = isset($default_section['label']) ? $default_section['label'] : '';
+    $section_title = isset($default_section['title']) ? $default_section['title'] : '';
+    $section_description = isset($default_section['description']) ? $default_section['description'] : '';
+    $section_note = isset($default_section['note']) ? $default_section['note'] : '';
+
+    $fields[] = array(
+      'key' => 'field_bgv_lunch_section_' . $section_index . '_message',
+      'label' => 'ランチブロック' . $section_index,
+      'name' => 'lunch_section_' . $section_index . '_message',
+      'type' => 'message',
+      'message' => 'ランチブロック' . $section_index . 'を編集します。',
+    );
+    $fields[] = array(
+      'key' => 'field_bgv_lunch_section_' . $section_index . '_label',
+      'label' => 'ブロックラベル',
+      'name' => 'lunch_section_' . $section_index . '_label',
+      'type' => 'text',
+      'default_value' => $section_label,
+      'instructions' => '例：A / B / C。空欄にすると見出しを表示しません。',
+    );
+    $fields[] = array(
+      'key' => 'field_bgv_lunch_section_' . $section_index . '_title',
+      'label' => 'ブロックタイトル',
+      'name' => 'lunch_section_' . $section_index . '_title',
+      'type' => 'textarea',
+      'rows' => 2,
+      'new_lines' => 'br',
+      'default_value' => $section_title,
+    );
+    $fields[] = array(
+      'key' => 'field_bgv_lunch_section_' . $section_index . '_description',
+      'label' => 'ブロック説明文',
+      'name' => 'lunch_section_' . $section_index . '_description',
+      'type' => 'textarea',
+      'rows' => 3,
+      'new_lines' => 'br',
+      'default_value' => $section_description,
+    );
+
+    $default_items = isset($default_section['items']) && is_array($default_section['items']) ? $default_section['items'] : array();
+    for ($item_index = 1; $item_index <= 12; $item_index++) {
+      $default_item = isset($default_items[$item_index - 1]) ? $default_items[$item_index - 1] : array();
+      $item_name = isset($default_item['name']) ? $default_item['name'] : '';
+      $item_description = isset($default_item['description']) ? $default_item['description'] : '';
+      $item_note = isset($default_item['note']) ? $default_item['note'] : '';
+      $item_price = isset($default_item['price']) ? $default_item['price'] : '';
+
+      $fields[] = array(
+        'key' => 'field_bgv_lunch_section_' . $section_index . '_item_' . $item_index . '_name',
+        'label' => 'ブロック' . $section_index . ' メニュー' . $item_index . '：メニュー名',
+        'name' => 'lunch_section_' . $section_index . '_item_' . $item_index . '_name',
+        'type' => 'textarea',
+        'rows' => 2,
+        'new_lines' => 'br',
+        'default_value' => $item_name,
+      );
+      $fields[] = array(
+        'key' => 'field_bgv_lunch_section_' . $section_index . '_item_' . $item_index . '_description',
+        'label' => 'ブロック' . $section_index . ' メニュー' . $item_index . '：説明文',
+        'name' => 'lunch_section_' . $section_index . '_item_' . $item_index . '_description',
+        'type' => 'textarea',
+        'rows' => 3,
+        'new_lines' => 'br',
+        'default_value' => $item_description,
+      );
+      $fields[] = array(
+        'key' => 'field_bgv_lunch_section_' . $section_index . '_item_' . $item_index . '_note',
+        'label' => 'ブロック' . $section_index . ' メニュー' . $item_index . '：注意書き',
+        'name' => 'lunch_section_' . $section_index . '_item_' . $item_index . '_note',
+        'type' => 'textarea',
+        'rows' => 3,
+        'new_lines' => 'br',
+        'default_value' => $item_note,
+      );
+      $fields[] = array(
+        'key' => 'field_bgv_lunch_section_' . $section_index . '_item_' . $item_index . '_price',
+        'label' => 'ブロック' . $section_index . ' メニュー' . $item_index . '：料金',
+        'name' => 'lunch_section_' . $section_index . '_item_' . $item_index . '_price',
+        'type' => 'text',
+        'default_value' => $item_price,
+      );
+      $fields[] = array(
+        'key' => 'field_bgv_lunch_section_' . $section_index . '_item_' . $item_index . '_image',
+        'label' => 'ブロック' . $section_index . ' メニュー' . $item_index . '：画像',
+        'name' => 'lunch_section_' . $section_index . '_item_' . $item_index . '_image',
+        'type' => 'image',
+        'return_format' => 'id',
+        'preview_size' => 'thumbnail',
+      );
+      $fields[] = array(
+        'key' => 'field_bgv_lunch_section_' . $section_index . '_item_' . $item_index . '_link_url',
+        'label' => 'ブロック' . $section_index . ' メニュー' . $item_index . '：リンク先URL',
+        'name' => 'lunch_section_' . $section_index . '_item_' . $item_index . '_link_url',
+        'type' => 'url',
+      );
+    }
+
+    $fields[] = array(
+      'key' => 'field_bgv_lunch_section_' . $section_index . '_note',
+      'label' => 'ブロック末尾の補足',
+      'name' => 'lunch_section_' . $section_index . '_note',
+      'type' => 'textarea',
+      'rows' => 3,
+      'new_lines' => 'br',
+      'default_value' => $section_note,
+    );
+  }
+
+  return $fields;
+}
+
 function bgv_register_acf_fields() {
   if (! function_exists('acf_add_local_field_group')) {
     return;
@@ -148,6 +336,52 @@ function bgv_register_acf_fields() {
       bgv_acf_text_field('field_bgv_blackboard_image_2_alt', '黒板メニュー画像2 alt', 'blackboard_image_2_alt'),
     ),
     'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-kokuban.php'))),
+  ));
+
+  acf_add_local_field_group(array(
+    'key' => 'group_bgv_lunch_page_menu',
+    'title' => 'ランチページ メニュー編集',
+    'fields' => bgv_acf_lunch_section_fields(),
+    'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-lunch.php'))),
+  ));
+
+  acf_add_local_field_group(array(
+    'key' => 'group_bgv_dinner_page_menu',
+    'title' => 'ディナーページ メニュー編集',
+    'fields' => bgv_acf_page_menu_fields('dinner', 'ディナーメニュー'),
+    'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-dinner.php'))),
+  ));
+
+  acf_add_local_field_group(array(
+    'key' => 'group_bgv_kids_page_menu',
+    'title' => 'お子様セットページ メニュー編集',
+    'fields' => bgv_acf_page_menu_fields('kids', 'お子様セット'),
+    'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-kids.php'))),
+  ));
+
+  acf_add_local_field_group(array(
+    'key' => 'group_bgv_drink_page_menu',
+    'title' => 'ドリンクページ メニュー編集',
+    'fields' => bgv_acf_page_menu_fields('drink', 'ドリンクメニュー', true, array(
+      'beer' => 'ビール',
+      'wine' => 'ワイン',
+      'cocktail' => 'カクテル',
+      'soft_drink' => 'ソフトドリンク',
+      'other' => 'その他',
+    )),
+    'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-drink.php'))),
+  ));
+
+  acf_add_local_field_group(array(
+    'key' => 'group_bgv_wine_page_menu',
+    'title' => 'ワインリストページ メニュー編集',
+    'fields' => bgv_acf_page_menu_fields('wine', 'ワインリスト', true, array(
+      'red_wine' => '赤ワイン',
+      'white_wine' => '白ワイン',
+      'sparkling' => 'スパークリング',
+      'other' => 'その他',
+    )),
+    'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-wine.php'))),
   ));
 
   acf_add_local_field_group(array(

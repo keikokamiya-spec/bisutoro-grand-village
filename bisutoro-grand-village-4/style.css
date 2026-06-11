@@ -1,0 +1,40 @@
+/*
+Theme Name: Bistrot Grand Village
+Theme URI: https://grand-village.yokohama/
+Author: Bistrot Grand Village
+Description: WordPress theme for Bistrot Grand Village. Menu pages are editable in WordPress, while the front page, gallery, and access section remain fixed templates.
+Version: 1.0.0
+Text Domain: bgv
+*/
+
+.wp-editable-content,
+.wp-editable-content * {
+  text-align: left !important;
+}
+
+.wp-editable-content {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.wp-editable-content p[align],
+.wp-editable-content div[align] {
+  text-align: left !important;
+}
+
+.wp-editable-content dl.menu {
+  margin-top: 0;
+}
+
+.wp-editable-content dl.menu dd {
+  text-align: right !important;
+}
+
+.wp-editable-content .balloon {
+  text-align: left !important;
+}
+
+.wp-editable-content img {
+  max-width: 100%;
+  height: auto;
+}

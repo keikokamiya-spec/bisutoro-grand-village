@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Shippori+Mincho:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@400;500;600&display=swap" rel="stylesheet" />
 <link href="css/style.css" rel="stylesheet" />
 <link href="css/base.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon.ico" />
@@ -46,7 +46,12 @@
 
 <!-- ===== HEADER ===== -->
 <header id="fixed_header">
-  <h1 class="logo"><a href="index.html"><img src="images/assets/logo.png" alt="ビストロ グランヴィラージュ" /></a></h1>
+  <h1 class="logo">
+    <a href="index.html">
+      <span class="logo-text">ビストロ グランヴィラージュ</span>
+      <span class="logo-text-en">Bistrot Grand Village</span>
+    </a>
+  </h1>
   <nav>
     <ul class="header_menu">
       <li><a href="category-kokuban.html">黒板メニュー</a></li>
@@ -68,29 +73,23 @@
 </header>
 <div id="fixed_end"></div>
 
-<!-- ===== HERO ===== -->
+<!-- ===== FLEXSLIDER ===== -->
 <section id="top_cover">
-  <div class="hero-bg" style="background-image:url('images/assets/slide1.jpg')"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="hero-en">Bistrot Grand Village — Yokohama</span>
-    <h2 class="hero-title">温かく、上質な<br>フレンチビストロ</h2>
-    <p class="hero-sub">横浜・山手で、特別な食卓を。<br>地元の皆様に愛されるカジュアルフレンチ。</p>
-    <div class="hero-btns">
-      <a href="category-lunch.html" class="btn btn-primary">メニューを見る</a>
-      <a href="index.html#home_access" class="btn btn-outline">アクセスを見る</a>
-    </div>
+  <div class="flexslider">
+    <ul class="slides">
+      <li><img src="images/assets/slide1.jpg" alt="ビストロ グランヴィラージュ" /></li>
+      <li><img src="images/assets/slide2.jpg" alt="料理写真" /></li>
+      <li><img src="images/assets/slide4.jpg" alt="料理写真" /></li>
+      <li><img src="images/assets/slide5.jpg" alt="料理写真" /></li>
+      <li><img src="images/assets/slide6.jpg" alt="料理写真" /></li>
+    </ul>
   </div>
-  <div class="hero-scroll">Scroll</div>
 </section>
 
 <!-- ===== INSTAGRAM ===== -->
 <section id="home_instagram" class="lazy">
   <div class="container">
-    <div class="section-header">
-      <span class="section-label">Instagram</span>
-      <h3 class="section-title">最新の投稿</h3>
-    </div>
+    <h3 class="common">Instagram<span>@bistrot_grandvillage</span></h3>
     <behold-widget feed-id="lb2drNmkH9yYiftIAmYC"></behold-widget>
     <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" rel="noopener" class="more">Instagramをフォローする</a>
   </div>
@@ -99,36 +98,28 @@
 <!-- ===== CONCEPT ===== -->
 <section id="home_concept">
   <div class="container">
-    <div class="concept-inner">
-      <div class="concept-img lazy">
-        <img src="images/home_concept_bg.jpg" alt="ビストロ グランヴィラージュ — 店内" loading="lazy" />
-      </div>
-      <div class="concept-txt lazy">
-        <span class="section-label">Our Concept</span>
-        <h3>地元横浜で育んだ、<br>カジュアルフレンチの食卓</h3>
-        <span class="accent-line"></span>
-        <p>料理の世界に入った時から生まれ育った地元で自分のお店を出す事を夢見ていました。</p>
-        <p>堅いイメージのあるフレンチですが当店は幅広い年齢層の方に立ち寄って頂ける様な温かい雰囲気のお店となっております。是非御家族、御友人を誘って御来店下さい。</p>
-        <p>コース料理や貸し切りパーティーも受け付けています！お気軽にご相談下さい。</p>
-        <div class="home_banners">
-          <img src="images/assets/bn_hamanavi.jpg" alt="ハマナビ 番組内で当店を紹介いただきました。" loading="lazy" />
-          <img src="images/assets/bn_turnedk.jpg" alt="光触媒による空気清浄機 導入しました！" loading="lazy" />
-        </div>
+    <div class="concept_txt lazy">
+      <span class="concept-name-text">ビストロ グランヴィラージュ</span>
+      <p>料理の世界に入った時から生まれ育った地元で自分のお店を出す事を夢見ていました。</p>
+      <p>堅いイメージのあるフレンチですが当店は幅広い年齢層の方に立ち寄って頂ける様な温かい雰囲気のお店となっております。是非御家族、御友人を誘って御来店下さい。</p>
+      <p>コース料理や貸し切りパーティーも受け付けています！お気軽にご相談下さい。</p>
+      <div class="home_banners">
+        <img src="images/assets/bn_hamanavi.jpg" alt="ハマナビ 番組内で当店を紹介いただきました。" loading="lazy" />
+        <img src="images/assets/bn_turnedk.jpg" alt="光触媒による空気清浄機 導入しました！" loading="lazy" />
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== CHEF PROFILE ===== -->
+<!-- ===== PROFILE ===== -->
 <section id="home_profile">
   <div class="container">
-    <span class="section-label">Chef Profile</span>
-    <h3 class="section-title" style="color:#fff;">シェフプロフィール</h3>
-    <div class="profile-inner lazy">
-      <div>
+    <h3 class="common">シェフプロフィール<span>Chef Profile</span></h3>
+    <div class="row lazy">
+      <div class="span3">
         <img src="images/assets/chef2.jpg" class="prof_photo" alt="大村 航介" loading="lazy" />
       </div>
-      <div class="profile-txt">
+      <div class="span9">
         <h4>大村 航介<span>Kosuke Omura</span></h4>
         <p>高校卒業後 エコール辻 東京フランス・イタリア料理専門カレッジに入学し料理の基礎を学ぶ。</p>
         <p>卒業後 横浜元町霧笛楼、トラットリア オ・プレチェネッラ、うかい亭を経て 関内ボンマルシェ でオープニングより店長兼料理長として携わる。</p>
@@ -137,196 +128,63 @@
   </div>
 </section>
 
-<!-- ===== MENU ===== -->
-<section id="home_menu">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">Our Menu</span>
-      <h3 class="section-title">メニュー</h3>
-    </div>
-    <div class="menu-grid">
-
-      <div class="menu-card lazy">
-        <div class="menu-card-img"><img src="images/assets/slide2.jpg" alt="ランチメニュー" loading="lazy" /></div>
-        <div class="menu-card-body">
-          <span class="menu-card-en">Lunch</span>
-          <h4 class="menu-card-title">ランチメニュー</h4>
-          <p class="menu-card-desc">前菜・メイン・デザートの充実したセットメニュー。平日・土曜のランチタイムに。</p>
-          <a href="category-lunch.html" class="menu-card-link">詳細を見る</a>
-        </div>
-      </div>
-
-      <div class="menu-card lazy">
-        <div class="menu-card-img"><img src="images/assets/slide4.jpg" alt="ディナーメニュー" loading="lazy" /></div>
-        <div class="menu-card-body">
-          <span class="menu-card-en">Dinner</span>
-          <h4 class="menu-card-title">ディナーメニュー</h4>
-          <p class="menu-card-desc">本格フレンチをカジュアルに楽しめるディナー。アラカルトからコースまで。</p>
-          <a href="food.html" class="menu-card-link">詳細を見る</a>
-        </div>
-      </div>
-
-      <div class="menu-card lazy">
-        <div class="menu-card-img"><img src="images/assets/slide5.jpg" alt="ドリンクメニュー" loading="lazy" /></div>
-        <div class="menu-card-body">
-          <span class="menu-card-en">Drink</span>
-          <h4 class="menu-card-title">ドリンクメニュー</h4>
-          <p class="menu-card-desc">フランスを中心とした豊富なワインと多彩なドリンクをご用意。</p>
-          <a href="drink.html" class="menu-card-link">詳細を見る</a>
-        </div>
-      </div>
-
-      <div class="menu-card lazy">
-        <div class="menu-card-img"><img src="images/assets/slide6.jpg" alt="ワインリスト" loading="lazy" /></div>
-        <div class="menu-card-body">
-          <span class="menu-card-en">Wine List</span>
-          <h4 class="menu-card-title">ワインリスト</h4>
-          <p class="menu-card-desc">厳選ワインを豊富にラインナップ。料理に合ったワインをご提案します。</p>
-          <a href="wine.html" class="menu-card-link">詳細を見る</a>
-        </div>
-      </div>
-
-      <div class="menu-card lazy">
-        <div class="menu-card-img"><img src="images/assets/slide1.jpg" alt="お子様メニュー" loading="lazy" /></div>
-        <div class="menu-card-body">
-          <span class="menu-card-en">Kids Menu</span>
-          <h4 class="menu-card-title">お子様メニュー</h4>
-          <p class="menu-card-desc">お子様も楽しめる特別メニュー。ご家族でのご来店も大歓迎です。</p>
-          <a href="kids.html" class="menu-card-link">詳細を見る</a>
-        </div>
-      </div>
-
-      <div class="menu-card lazy">
-        <div class="menu-card-img"><img src="images/home_profile_bg.jpg" alt="黒板メニュー" loading="lazy" /></div>
-        <div class="menu-card-body">
-          <span class="menu-card-en">Daily Special</span>
-          <h4 class="menu-card-title">黒板メニュー</h4>
-          <p class="menu-card-desc">その日仕入れた食材を使った、シェフこだわりの本日のおすすめ。</p>
-          <a href="category-kokuban.html" class="menu-card-link">詳細を見る</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ===== GALLERY ===== -->
-<section id="home_gallery">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">Gallery</span>
-      <h3 class="section-title">フォトギャラリー</h3>
-    </div>
-    <div class="gallery-bento lazy">
-      <div class="bento-item"><img src="images/assets/slide1.jpg" alt="料理写真1" loading="lazy" /></div>
-      <div class="bento-item"><img src="images/assets/slide2.jpg" alt="料理写真2" loading="lazy" /></div>
-      <div class="bento-item"><img src="images/assets/slide4.jpg" alt="料理写真3" loading="lazy" /></div>
-      <div class="bento-item"><img src="images/assets/slide5.jpg" alt="店内写真1" loading="lazy" /></div>
-      <div class="bento-item"><img src="images/assets/slide6.jpg" alt="店内写真2" loading="lazy" /></div>
-      <div class="bento-item"><img src="images/home_concept_bg.jpg" alt="外観写真" loading="lazy" /></div>
-    </div>
-    <div class="gallery-more">
-      <a href="gallery.html" class="btn btn-ghost">ギャラリーをすべて見る</a>
-    </div>
-  </div>
-</section>
-
 <!-- ===== ACCESS ===== -->
 <section id="home_access">
   <div class="container">
-    <div class="section-header">
-      <span class="section-label">Access &amp; Hours</span>
-      <h3 class="section-title">アクセス・営業時間</h3>
-    </div>
-    <div class="access-grid lazy">
-      <div class="google-maps">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3251.075783275786!2d139.6435886757764!3d35.42815267267006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60185da7193477df%3A0x107058e1a8b1e5af!2z44OT44K544OI44OtIOOCsOODqeODs-ODtOOCo-ODqeODvOOCuOODpQ!5e0!3m2!1sja!2sjp!4v1777282308434!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Map"></iframe>
-      </div>
-      <div class="access-info-card">
-        <div class="access-name">ビストロ グランヴィラージュ</div>
-        <div class="access-row">
-          <span class="access-row-label">Address</span>
-          <span class="access-row-val">〒231-0846<br>神奈川県横浜市中区大和町2-50-7<br>ヴィラ山手1F<br>JR京浜東北根岸線山手駅より１分</span>
-        </div>
-        <div class="access-row">
-          <span class="access-row-label">Tel</span>
-          <span class="access-row-val"><a href="tel:045-305-6619">045-305-6619</a></span>
-        </div>
-        <div class="access-row">
-          <span class="access-row-label">Hours</span>
-          <span class="access-row-val">
-            <table class="time">
-              <thead>
-                <tr><th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>11:30〜14:30<br>(L.O. 14:00)</th>
-                  <td>×</td><td>×</td><td>○</td><td>○</td><td>○</td><td>○</td><td>×</td>
-                </tr>
-                <tr>
-                  <th>17:30〜22:00<br>(L.O. 21:00)</th>
-                  <td>×</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>×</td>
-                </tr>
-              </tbody>
-            </table>
-          </span>
-        </div>
-        <div class="access-row">
-          <span class="access-row-label">Holiday</span>
-          <span class="access-row-val">定休日：日曜日、月曜日<br>火曜日のランチ（祝日の場合は変更あり）</span>
+    <h3 class="common">アクセス・営業時間<span>Access &amp; Hours</span></h3>
+    <div class="row lazy">
+      <div class="span5">
+        <div class="google-maps">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3251.075783275786!2d139.6435886757764!3d35.42815267267006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60185da7193477df%3A0x107058e1a8b1e5af!2z44OT44K544OI44OtIOOCsOODqeODs-ODtOOCo-ODqeODvOOCuOODpQ!5e0!3m2!1sja!2sjp!4v1777282308434!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Google Map"></iframe>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CTA ===== -->
-<section id="home_cta">
-  <div class="container">
-    <h3 class="cta-title">ご予約・お問い合わせ</h3>
-    <p class="cta-sub">お気軽にお電話またはInstagramのDMにてご連絡ください。</p>
-    <div class="cta-links">
-      <a href="tel:045-305-6619" class="cta-btn">
-        <i class="fa fa-phone" aria-hidden="true"></i>
-        <span>電話で予約</span>
-      </a>
-      <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" rel="noopener" class="cta-btn">
-        <i class="fa fa-instagram" aria-hidden="true"></i>
-        <span>Instagram DM</span>
-      </a>
-      <a href="https://maps.app.goo.gl/Ym4ZGtmjGiWyQnEP8" target="_blank" rel="noopener" class="cta-btn">
-        <i class="fa fa-map-marker" aria-hidden="true"></i>
-        <span>Googleマップ</span>
-      </a>
-      <a href="index.html#home_access" class="cta-btn">
-        <i class="fa fa-clock-o" aria-hidden="true"></i>
-        <span>営業時間・アクセス</span>
-      </a>
+      <div class="span7">
+        <dl class="top_info">
+          <dt>住所</dt>
+          <dd>〒231-0846<br>神奈川県横浜市中区大和町2-50-7<br>ヴィラ山手1F<br>JR京浜東北根岸線 山手駅より１分</dd>
+          <dt>電話</dt>
+          <dd><a href="tel:045-305-6619"><i class="fa fa-phone-square"></i> 045-305-6619</a></dd>
+          <dt>定休日</dt>
+          <dd>日曜日、月曜日<br>火曜日のランチ（祝日の場合は変更あり）</dd>
+        </dl>
+        <div class="table-scroll">
+          <table class="time">
+            <thead>
+              <tr><th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>11:30〜14:30<br>(L.O. 14:00)</th>
+                <td>×</td><td>×</td><td>○</td><td>○</td><td>○</td><td>○</td><td>×</td>
+              </tr>
+              <tr>
+                <th>17:30〜22:00<br>(L.O. 21:00)</th>
+                <td>×</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>×</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-logo">
-      <img src="images/assets/logo_footer.png" alt="ビストロ グランヴィラージュ" />
-    </div>
-    <div class="footer_social">
-      <a href="https://www.facebook.com/grandvillage.yokohama/" target="_blank" rel="noopener" aria-label="Facebook">
-        <img src="images/assets/icon_fb.png" alt="Facebook" />
-      </a>
-      <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" rel="noopener" aria-label="Instagram">
-        <img src="images/assets/icon_instagram.png" alt="Instagram" />
-      </a>
-    </div>
-    <div class="footer-divider"></div>
-    <p class="footer-copy">
-      Copyright &copy; <a href="index.html">ビストロ グランヴィラージュ</a> All Rights Reserved.<br />
-      Designed by <a href="https://www.8th-ocean.co.jp/" target="_blank" rel="noopener">8thOcean.</a>
-    </p>
+  <span class="footer-name">ビストロ グランヴィラージュ</span>
+  <span class="footer-name-en">Bistrot Grand Village</span>
+  <div class="footer_social">
+    <a href="https://www.facebook.com/grandvillage.yokohama/" target="_blank" rel="noopener" aria-label="Facebook">
+      <img src="images/assets/icon_fb.png" alt="Facebook" />
+    </a>
+    <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" rel="noopener" aria-label="Instagram">
+      <img src="images/assets/icon_instagram.png" alt="Instagram" />
+    </a>
   </div>
+  <p class="footer-copy">
+    Copyright &copy; <a href="index.html">ビストロ グランヴィラージュ</a> All Rights Reserved.<br />
+    Designed by <a href="https://www.8th-ocean.co.jp/" target="_blank" rel="noopener">8thOcean.</a>
+  </p>
 </footer>
 
 <!-- SP Fixed Bottom Bar -->
@@ -353,20 +211,29 @@
 
 <script>
 jQuery(function($) {
+  // FlexSlider
+  $('.flexslider').flexslider({
+    animation: 'fade',
+    slideshowSpeed: 5000,
+    animationSpeed: 800,
+    pauseOnHover: true
+  });
+
   // ハンバーガーメニュー
   $('#menu_bars').on('click', function() {
     var $menu = $('.header_menu');
     var isOpen = $menu.hasClass('open');
     $menu.toggleClass('open');
-    $('#menu_open').toggle(isOpen);
-    $('#menu_close').toggle(!isOpen);
     $(this).attr('aria-expanded', !isOpen);
+    if (isOpen) {
+      $(this).removeClass('menu_bars_close');
+    } else {
+      $(this).addClass('menu_bars_close');
+    }
   });
   $('#fixed_header .header_menu a').on('click', function() {
     $('.header_menu').removeClass('open');
-    $('#menu_open').show();
-    $('#menu_close').hide();
-    $('#menu_bars').attr('aria-expanded', 'false');
+    $('#menu_bars').attr('aria-expanded', 'false').removeClass('menu_bars_close');
   });
 
   // スクロール時ヘッダーシャドウ
@@ -379,17 +246,16 @@ jQuery(function($) {
   });
 
   // lazy fade-in
-  $(window).on('load scroll', function() {
+  function checkLazy() {
     $('.lazy').each(function() {
-      if ($(window).scrollTop() > $(this).offset().top - $(window).height()) {
+      if ($(window).scrollTop() + $(window).height() > $(this).offset().top + 60) {
         $(this).addClass('on');
       }
     });
-  });
+  }
+  $(window).on('scroll', checkLazy);
+  checkLazy();
 });
-
-// Hero loaded class
-document.getElementById('top_cover').classList.add('loaded');
 </script>
 </body>
 </html>

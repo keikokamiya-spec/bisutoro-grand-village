@@ -3,7 +3,7 @@
 Template Name: ワインリスト
 */
 get_header();
-bgv_render_page_title('Wine List');
+bgv_render_page_title_image('ワインリスト', 'title-sign-wine-stylish.png');
 $has_cpt_menu = bgv_has_visible_cpt_items('wine_menu');
 $wine_categories = array(
   'red_wine' => '赤ワイン',

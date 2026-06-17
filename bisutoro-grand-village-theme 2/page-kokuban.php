@@ -5,7 +5,7 @@ Template Name: 黒板メニュー
 get_header();
 $heading = bgv_get_field('blackboard_heading', '黒板メニュー', get_the_ID());
 $description = bgv_get_field('blackboard_description', "ご予算に応じてコース料理でお作りする事や\nアラカルトメニューもご注文可能です。\nお気軽にお問い合わせ下さい", get_the_ID());
-bgv_render_page_title($heading ?: '黒板メニュー');
+bgv_render_page_title_image($heading ?: '黒板メニュー', 'kokuban-title-sign-stylish.png');
 ?>
 <section id="main">
   <div class="container">

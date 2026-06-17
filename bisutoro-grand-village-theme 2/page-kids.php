@@ -3,7 +3,7 @@
 Template Name: お子様セット
 */
 get_header();
-bgv_render_page_title('Kids Menu');
+bgv_render_page_title_image('お子様セット', 'title-sign-kids-stylish.png');
 $has_cpt_menu = bgv_has_visible_cpt_items('kids_menu');
 ?>
 <section id="main">

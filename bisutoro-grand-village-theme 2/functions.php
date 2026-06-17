@@ -278,6 +278,33 @@ function bgv_render_page_title($title, $subtitle = '') {
   <?php
 }
 
+function bgv_render_page_title_image($title, $image_filename, $subtitle = '') {
+  $image_filename = ltrim($image_filename, '/');
+  $title_image_path = get_template_directory() . '/assets/images/assets/' . $image_filename;
+
+  if (! file_exists($title_image_path)) {
+    bgv_render_page_title($title, $subtitle);
+    return;
+  }
+
+  $title_image_url = get_template_directory_uri() . '/assets/images/assets/' . $image_filename;
+  ?>
+  <section id="pagetitle" class="sign-title-page">
+    <h1 class="kokuban-sign-title">
+      <img src="<?php echo esc_url($title_image_url); ?>" alt="<?php echo esc_attr($title); ?>" />
+    </h1>
+  </section>
+  <section id="breadcrumb">
+    <div class="container">
+      <ul>
+        <li><a href="<?php echo esc_url(home_url('/')); ?>" class="home"><span>HOME</span></a></li>
+        <li><span class="fa fa-caret-right"></span><span><?php echo esc_html($title); ?></span></li>
+      </ul>
+    </div>
+  </section>
+  <?php
+}
+
 function bgv_menu_from_acf($default_sections, $post_id = null) {
   $sections = bgv_get_field('menu_sections', array(), $post_id);
   if (! is_array($sections) || empty($sections)) {

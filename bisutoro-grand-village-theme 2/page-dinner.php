@@ -3,7 +3,7 @@
 Template Name: ディナーメニュー
 */
 get_header();
-bgv_render_page_title('Food Menu');
+bgv_render_page_title_image('ディナー', 'title-sign-dinner-stylish.png');
 ?>
 <section id="main">
   <div class="container">
@@ -20,4 +20,3 @@ bgv_render_page_title('Food Menu');
   </div>
 </section>
 <?php get_footer(); ?>
-

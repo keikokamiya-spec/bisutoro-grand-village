@@ -500,6 +500,19 @@ body#sub section#pagetitle {
     line-height: 100%;
     font-weight: normal;
     font-size: 16px; }
+body#sub section#pagetitle.sign-title-page {
+  padding: 0 0 20px;
+  background: transparent; }
+body#sub section#pagetitle.sign-title-page h1.kokuban-sign-title {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0;
+  text-shadow: none; }
+  body#sub section#pagetitle.sign-title-page h1.kokuban-sign-title img {
+    display: block;
+    width: min(100%, 980px);
+    height: auto;
+    margin: 0 auto; }
 
 /*---ウィジェット---*/
 h3.disable {

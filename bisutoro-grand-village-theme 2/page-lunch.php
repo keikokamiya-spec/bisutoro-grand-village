@@ -3,7 +3,7 @@
 Template Name: ランチ
 */
 get_header();
-bgv_render_page_title('ランチ');
+bgv_render_page_title_image('ランチ', 'title-sign-lunch-stylish.png');
 $has_cpt_menu = bgv_has_visible_cpt_items('lunch_menu');
 ?>
 <section id="main">

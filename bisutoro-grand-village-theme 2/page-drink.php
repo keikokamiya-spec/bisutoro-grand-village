@@ -3,7 +3,7 @@
 Template Name: ドリンク
 */
 get_header();
-bgv_render_page_title('Drink Menu');
+bgv_render_page_title_image('ドリンク', 'title-sign-drink-stylish.png');
 $has_cpt_menu = bgv_has_visible_cpt_items('drink_menu');
 $drink_categories = array(
   'beer' => 'ビール',

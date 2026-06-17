@@ -1499,11 +1499,28 @@ body#home section#home_access {
   padding: 108px 0;
   background: transparent;
 }
+body#home section#home_concept {
+  position: relative;
+  background: #fbf9f5;
+  overflow: hidden;
+}
+body#home section#home_concept::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../images/auto_gal/02.jpg") center center / cover no-repeat;
+  opacity: .3;
+  z-index: 0;
+}
+body#home section#home_concept .container {
+  position: relative;
+  z-index: 1;
+}
 .section-heading {
   display: grid;
-  grid-template-columns: 72px 1fr;
+  grid-template-columns: 1fr;
   align-items: end;
-  gap: 18px;
+  gap: 6px;
   margin-bottom: 38px;
   text-align: left;
 }
@@ -1530,11 +1547,12 @@ section#home_concept .section-heading {
 }
 section#home_concept .concept_txt {
   max-width: none;
-  padding: 42px 44px;
-  background: rgba(255,250,243,.94);
-  border: 1px solid rgba(138,119,91,.14);
-  border-radius: 34px;
-  box-shadow: 0 24px 56px rgba(78,62,38,.09);
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #2a2a2a;
 }
 section#home_concept .home_banners {
   display: grid;
@@ -1562,11 +1580,21 @@ section#home_access .row {
   border-radius: 34px;
   box-shadow: 0 24px 56px rgba(78,62,38,.09);
 }
+section#home_profile .row::before,
+section#home_profile .row::after,
+section#home_access .row::before,
+section#home_access .row::after {
+  content: none;
+}
 section#home_profile .span3,
 section#home_profile .span9,
 section#home_access .span5,
 section#home_access .span7 {
   flex: none;
+  float: none;
+  width: auto;
+  margin-left: 0;
+  min-width: 0;
 }
 img.prof_photo {
   aspect-ratio: 4 / 5;

@@ -1245,10 +1245,22 @@ body#home.menu-open {
 header#fixed_header {
   height: 128px;
   padding: 0 28px;
-  background: rgba(248,244,237,.82);
+  background: transparent;
   border-bottom: 1px solid rgba(114,93,64,.12);
-  backdrop-filter: blur(16px);
   box-shadow: none;
+}
+/* 背景のぼかし＋色味は::beforeに分離。header本体にbackdrop-filterを
+   付けるとfixed子要素(nav)の包含ブロックになってしまい、メニューが
+   ヘッダー内に閉じ込められるため。 */
+header#fixed_header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(248,244,237,.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  pointer-events: none;
 }
 header#fixed_header.scrolled {
   box-shadow: 0 12px 30px rgba(55,45,29,.08);
@@ -1333,7 +1345,7 @@ header#fixed_header ul.header_menu {
   right: 0;
   bottom: 0;
   z-index: 2;
-  width: 50vw;
+  width: 42%;
   height: auto;
   display: flex;
   flex-direction: column;

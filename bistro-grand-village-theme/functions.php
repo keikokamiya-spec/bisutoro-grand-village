@@ -27,6 +27,7 @@ function bgv_setup() {
 add_action('after_setup_theme', 'bgv_setup');
 
 function bgv_enqueue_assets() {
+  wp_enqueue_style('bgv-fonts', 'https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap', array(), null);
   wp_enqueue_style('bgv-style', bgv_asset_uri('assets/css/style.css'), array(), BGV_THEME_VERSION);
   wp_enqueue_script('jquery');
   wp_enqueue_script('bgv-bootstrap', bgv_asset_uri('assets/js/bootstrap.js'), array('jquery'), BGV_THEME_VERSION, true);
@@ -52,6 +53,40 @@ function bgv_head_assets() {
 }
 add_action('wp_head', 'bgv_head_assets', 5);
 
+function bgv_filter_nav_menu_objects($items) {
+  if (! is_array($items)) {
+    return $items;
+  }
+
+  foreach ($items as $item) {
+    if (! isset($item->url)) {
+      continue;
+    }
+
+    $slug = '';
+    if (isset($item->object) && $item->object === 'page' && ! empty($item->object_id)) {
+      $post = get_post((int) $item->object_id);
+      if ($post instanceof WP_Post) {
+        $slug = $post->post_name;
+      }
+    }
+
+    if ($slug === '' && ! empty($item->url)) {
+      $path = wp_parse_url($item->url, PHP_URL_PATH);
+      if (is_string($path) && $path !== '') {
+        $slug = basename(untrailingslashit($path));
+      }
+    }
+
+    if (bgv_is_home_section_slug($slug)) {
+      $item->url = bgv_home_section_url($slug);
+    }
+  }
+
+  return $items;
+}
+add_filter('wp_nav_menu_objects', 'bgv_filter_nav_menu_objects');
+
 function bgv_nav_items() {
   return array(
     array('label' => '黒板メニュー', 'slug' => 'kokuban'),
@@ -66,7 +101,29 @@ function bgv_nav_items() {
   );
 }
 
+function bgv_home_section_anchor($slug) {
+  $anchors = array(
+    'interior-exterior' => 'home_interior_exterior',
+    'gallery' => 'home_gallery',
+  );
+
+  return isset($anchors[$slug]) ? $anchors[$slug] : '';
+}
+
+function bgv_is_home_section_slug($slug) {
+  return bgv_home_section_anchor($slug) !== '';
+}
+
+function bgv_home_section_url($slug) {
+  $anchor = bgv_home_section_anchor($slug);
+  return $anchor ? home_url('/#' . $anchor) : home_url('/');
+}
+
 function bgv_page_link($slug) {
+  if (bgv_is_home_section_slug($slug)) {
+    return bgv_home_section_url($slug);
+  }
+
   $page = get_page_by_path($slug);
   return $page ? get_permalink($page) : home_url('/' . trim($slug, '/') . '/');
 }
@@ -108,6 +165,21 @@ function bgv_current_slug() {
   }
   return '';
 }
+
+function bgv_redirect_legacy_section_pages() {
+  if (! is_page()) {
+    return;
+  }
+
+  $slug = bgv_current_slug();
+  if (! bgv_is_home_section_slug($slug)) {
+    return;
+  }
+
+  wp_safe_redirect(bgv_home_section_url($slug), 301);
+  exit;
+}
+add_action('template_redirect', 'bgv_redirect_legacy_section_pages');
 
 function bgv_fallback_navigation() {
   echo '<ul class="header_menu">';
@@ -802,6 +874,130 @@ function bgv_default_gallery_files() {
     'IMG_8661.JPG', 'IMG_8662.JPG', 'IMG_9697.JPG', 'IMG_9935.JPG', 'IMG_9940.JPG', 'IMG_9942.JPG',
     'IMG_9943.JPG', 'IMG_9944.JPG',
   );
+}
+
+function bgv_render_interior_exterior_sections() {
+  ?>
+  <div class="photos interior-exterior-photos">
+    <section class="photos-section">
+      <h4 class="photos-section-title">外観<span>Exterior</span></h4>
+      <div class="photos-slider">
+        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/gai1.jpg'); ?>" alt="外観1" loading="lazy" /></figure>
+        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/gai2.jpg'); ?>" alt="外観2" loading="lazy" /></figure>
+      </div>
+    </section>
+    <section class="photos-section">
+      <h4 class="photos-section-title">内観<span>Interior</span></h4>
+      <div class="photos-slider">
+        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai1.jpg'); ?>" alt="内観1" loading="lazy" /></figure>
+        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai2.jpg'); ?>" alt="内観2" loading="lazy" /></figure>
+        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai3.jpg'); ?>" alt="内観3" loading="lazy" /></figure>
+        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai4.jpg'); ?>" alt="内観4" loading="lazy" /></figure>
+      </div>
+    </section>
+  </div>
+  <?php
+}
+
+function bgv_get_gallery_images($post_id = null) {
+  $images = array();
+  $default_gallery_files = bgv_default_gallery_files();
+  $target_post_id = $post_id ? (int) $post_id : 0;
+
+  if ($target_post_id && function_exists('get_field')) {
+    for ($i = 1; $i <= count($default_gallery_files); $i++) {
+      $image_id = bgv_get_field('gallery_image_' . $i, 0, $target_post_id);
+      $default_file = $default_gallery_files[$i - 1];
+      $default_alt = 'ギャラリー' . $i;
+
+      if ($image_id && is_numeric($image_id)) {
+        $full_url = wp_get_attachment_image_url((int) $image_id, 'full');
+        $thumb_html = wp_get_attachment_image((int) $image_id, 'large', false, array(
+          'alt' => esc_attr(bgv_get_field('gallery_image_' . $i . '_alt', $default_alt, $target_post_id)),
+          'loading' => 'lazy',
+          'decoding' => 'async',
+        ));
+
+        if ($full_url && $thumb_html) {
+          $images[] = array(
+            'full_url' => $full_url,
+            'thumb_html' => $thumb_html,
+            'alt' => bgv_get_field('gallery_image_' . $i . '_alt', $default_alt, $target_post_id),
+          );
+          continue;
+        }
+      }
+
+      $url = bgv_asset_uri('assets/images/auto_gal/' . rawurlencode($default_file));
+      $alt = bgv_get_field('gallery_image_' . $i . '_alt', $default_alt, $target_post_id);
+      $images[] = array(
+        'full_url' => $url,
+        'thumb_html' => '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" loading="lazy" decoding="async" />',
+        'alt' => $alt,
+      );
+    }
+
+    return $images;
+  }
+
+  $gallery_files = glob(bgv_asset_path('assets/images/auto_gal/*.{jpg,jpeg,JPG,JPEG,png,PNG}'), GLOB_BRACE);
+  if (! is_array($gallery_files)) {
+    return array();
+  }
+
+  sort($gallery_files, SORT_NATURAL | SORT_FLAG_CASE);
+  foreach ($gallery_files as $index => $image_path) {
+    $file = basename($image_path);
+    $url = bgv_asset_uri('assets/images/auto_gal/' . rawurlencode($file));
+    $alt = 'ギャラリー' . ($index + 1);
+    $images[] = array(
+      'full_url' => $url,
+      'thumb_html' => '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" loading="lazy" decoding="async" />',
+      'alt' => $alt,
+    );
+  }
+
+  return $images;
+}
+
+function bgv_render_gallery_stack_list($images) {
+  if (! is_array($images) || empty($images)) {
+    return false;
+  }
+
+  $chunks = array_chunk($images, 3);
+  $patterns = array(
+    array(0, 1, 2),
+    array(1, 2, 0),
+    array(2, 0, 1),
+  );
+  $total_images = count($images);
+  $fallback_index = 0;
+
+  echo '<ul class="gallery-stack-grid">';
+  foreach ($chunks as $stack_index => $chunk) {
+    while (count($chunk) < 3 && $total_images > 0) {
+      $chunk[] = $images[$fallback_index % $total_images];
+      $fallback_index++;
+    }
+
+    $pattern = $patterns[$stack_index % count($patterns)];
+    echo '<li' . ($stack_index >= 6 ? ' class="lazy"' : '') . '>';
+    echo '<div class="gallery-stack gallery-stack-' . esc_attr((string) (($stack_index % 3) + 1)) . '">';
+
+    foreach ($pattern as $layer_index => $image_index) {
+      $image = $chunk[$image_index];
+      echo '<a href="' . esc_url($image['full_url']) . '" class="gallery gallery-stack-layer layer-' . esc_attr((string) ($layer_index + 1)) . '" aria-label="' . esc_attr($image['alt']) . 'を拡大表示">';
+      echo $image['thumb_html'];
+      echo '</a>';
+    }
+
+    echo '</div>';
+    echo '</li>';
+  }
+  echo '</ul>';
+
+  return true;
 }
 
 function bgv_render_linked_food_items() {

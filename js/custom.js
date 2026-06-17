@@ -18,19 +18,38 @@ jQuery(function() {
         nextText    : ""
     });
     // DropMenu
-    jQuery('#menu_bars').click(function() {
-        jQuery('.header_menu').slideToggle('fast');
-        jQuery("#menu_bars").toggleClass("menu_bars_close");
-        if($('#wpadminbar').length){
-             $('.header_menu').css('top', '116px' );
+    jQuery('#menu_bars').on('click', function() {
+        var $menu = jQuery('.header_menu');
+        var $nav = jQuery('#fixed_header nav');
+        var isOpen = $menu.hasClass('open');
+
+        $menu.toggleClass('open', !isOpen);
+        $nav.toggleClass('open', !isOpen);
+        jQuery('body').toggleClass('menu-open', !isOpen);
+        jQuery(this).attr('aria-expanded', !isOpen);
+
+        if (isOpen) {
+            jQuery(this).removeClass('menu_bars_close');
+        } else {
+            jQuery(this).addClass('menu_bars_close');
         }
     });
 
     jQuery('#fixed_header .header_menu a').on('click', function() {
-        var href = jQuery(this).attr('href');
-        if (href && href !== '#' && href.indexOf('tel:') !== 0) {
-            window.location.href = href;
+        jQuery('.header_menu').removeClass('open');
+        jQuery('#fixed_header nav').removeClass('open');
+        jQuery('body').removeClass('menu-open');
+        jQuery('#menu_bars').attr('aria-expanded', 'false').removeClass('menu_bars_close');
+    });
+
+    jQuery('#fixed_header nav').on('click', function(e) {
+        if (jQuery(e.target).closest('.header_menu').length) {
+            return;
         }
+        jQuery('.header_menu').removeClass('open');
+        jQuery('#fixed_header nav').removeClass('open');
+        jQuery('body').removeClass('menu-open');
+        jQuery('#menu_bars').attr('aria-expanded', 'false').removeClass('menu_bars_close');
     });
 
     jQuery('a.gallery').magnificPopup({
@@ -43,7 +62,7 @@ jQuery(function() {
         }, 
     });
 
-    jQuery('.pg-gal > ul, .photos-slider').each(function() {
+    jQuery('.photos-slider').each(function() {
         var $track = jQuery(this);
         var $slides = $track.children('li, figure');
         var $status = jQuery('<div class="gallery-slider-status" aria-hidden="true"><span>1 / ' + $slides.length + '</span></div>');

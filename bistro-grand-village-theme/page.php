@@ -34,20 +34,7 @@ bgv_render_page_title($title);
       <article>
         <div class="single-page pg-gal">
           <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
-          <ul>
-            <?php
-            $gallery_images = glob(bgv_asset_path('assets/images/auto_gal/*.{jpg,jpeg,JPG,JPEG,png,PNG}'), GLOB_BRACE);
-            if (! is_array($gallery_images)) {
-              $gallery_images = array();
-            }
-            sort($gallery_images, SORT_NATURAL | SORT_FLAG_CASE);
-            foreach ($gallery_images as $index => $image_path) :
-              $file = basename($image_path);
-              $url = bgv_asset_uri('assets/images/auto_gal/' . rawurlencode($file));
-              ?>
-              <li<?php echo $index >= 12 ? ' class="lazy"' : ''; ?>><a href="<?php echo esc_url($url); ?>" class="gallery"><img src="<?php echo esc_url($url); ?>" alt="<?php echo esc_attr('ギャラリー' . ($index + 1)); ?>" /></a></li>
-            <?php endforeach; ?>
-          </ul>
+          <?php bgv_render_gallery_stack_list(bgv_get_gallery_images(get_the_ID())); ?>
         </div>
       </article>
     <?php else : ?>

@@ -43,13 +43,13 @@
 </script>
 </head>
 <body id="home">
+<div class="l-stage p-home" id="js-stage">
 
 <!-- ===== HEADER ===== -->
 <header id="fixed_header">
   <h1 class="logo">
     <a href="index.html">
-      <span class="logo-text">ビストロ グランヴィラージュ</span>
-      <span class="logo-text-en">Bistrot Grand Village</span>
+      <img src="images/assets/logo.png" alt="ビストロ グランヴィラージュ" />
     </a>
   </h1>
   <nav>
@@ -60,8 +60,6 @@
       <li><a href="kids.html">お子様セット</a></li>
       <li><a href="drink.html">ドリンク</a></li>
       <li><a href="wine.html">ワインリスト</a></li>
-      <li><a href="interior-exterior.html">内観＆外観</a></li>
-      <li><a href="gallery.html">ギャラリー</a></li>
       <li><a href="index.html#home_access">営業時間＆アクセス</a></li>
     </ul>
   </nav>
@@ -75,14 +73,20 @@
 
 <!-- ===== FLEXSLIDER ===== -->
 <section id="top_cover">
-  <div class="flexslider">
-    <ul class="slides">
-      <li><img src="images/assets/slide1.jpg" alt="ビストロ グランヴィラージュ" /></li>
-      <li><img src="images/assets/slide2.jpg" alt="料理写真" /></li>
-      <li><img src="images/assets/slide4.jpg" alt="料理写真" /></li>
-      <li><img src="images/assets/slide5.jpg" alt="料理写真" /></li>
-      <li><img src="images/assets/slide6.jpg" alt="料理写真" /></li>
-    </ul>
+  <div class="hero-shell">
+    <div class="flexslider">
+      <ul class="slides">
+        <li><img src="images/assets/slide1.jpg" alt="ビストロ グランヴィラージュ" /></li>
+        <li><img src="images/assets/slide2.jpg" alt="料理写真" /></li>
+        <li><img src="images/assets/slide4.jpg" alt="料理写真" /></li>
+        <li><img src="images/assets/slide5.jpg" alt="料理写真" /></li>
+        <li><img src="images/assets/slide6.jpg" alt="料理写真" /></li>
+      </ul>
+    </div>
+    <div class="hero-copy lazy">
+      <p class="hero-copy__eyebrow">Yamate Casual French</p>
+      <p class="hero-copy__text">横浜山手で、気軽に立ち寄れる温かなフレンチを。<br>料理も空間も、肩肘張らずに楽しめる一軒です。</p>
+    </div>
   </div>
 </section>
 
@@ -90,7 +94,21 @@
 <section id="home_instagram" class="lazy">
   <div class="container">
     <h3 class="common">Instagram<span>@bistrot_grandvillage</span></h3>
-    <behold-widget feed-id="lb2drNmkH9yYiftIAmYC"></behold-widget>
+    <div class="instagram-feed-shell">
+      <behold-widget feed-id="lb2drNmkH9yYiftIAmYC"></behold-widget>
+      <div class="instagram-mobile-carousel" aria-label="Instagram モバイルカルーセル">
+        <div class="instagram-mobile-carousel__track"></div>
+      </div>
+      <button type="button" class="instagram-mobile-carousel__arrow instagram-mobile-carousel__arrow--prev" aria-label="前の投稿を見る">
+        <span aria-hidden="true">&#8249;</span>
+      </button>
+      <button type="button" class="instagram-mobile-carousel__arrow instagram-mobile-carousel__arrow--next" aria-label="次の投稿を見る">
+        <span aria-hidden="true">&#8250;</span>
+      </button>
+      <div class="instagram-mobile-carousel__count" aria-live="polite">
+        <span>1 / 1</span>
+      </div>
+    </div>
     <a href="https://www.instagram.com/bistrot_grandvillage/" target="_blank" rel="noopener" class="more">Instagramをフォローする</a>
   </div>
 </section>
@@ -98,15 +116,16 @@
 <!-- ===== CONCEPT ===== -->
 <section id="home_concept">
   <div class="container">
+    <h3 class="common section-heading" data-num="01">コンセプト<span>Concept</span></h3>
     <div class="concept_txt lazy">
       <span class="concept-name-text">ビストロ グランヴィラージュ</span>
       <p>料理の世界に入った時から生まれ育った地元で自分のお店を出す事を夢見ていました。</p>
       <p>堅いイメージのあるフレンチですが当店は幅広い年齢層の方に立ち寄って頂ける様な温かい雰囲気のお店となっております。是非御家族、御友人を誘って御来店下さい。</p>
       <p>コース料理や貸し切りパーティーも受け付けています！お気軽にご相談下さい。</p>
-      <div class="home_banners">
-        <img src="images/assets/bn_hamanavi.jpg" alt="ハマナビ 番組内で当店を紹介いただきました。" loading="lazy" />
-        <img src="images/assets/bn_turnedk.jpg" alt="光触媒による空気清浄機 導入しました！" loading="lazy" />
-      </div>
+    </div>
+    <div class="home_banners lazy">
+      <img src="images/assets/bn_hamanavi.jpg" alt="ハマナビ 番組内で当店を紹介いただきました。" loading="lazy" />
+      <img src="images/assets/bn_turnedk.jpg" alt="光触媒による空気清浄機 導入しました！" loading="lazy" />
     </div>
   </div>
 </section>
@@ -114,7 +133,7 @@
 <!-- ===== PROFILE ===== -->
 <section id="home_profile">
   <div class="container">
-    <h3 class="common">シェフプロフィール<span>Chef Profile</span></h3>
+    <h3 class="common section-heading" data-num="02">シェフプロフィール<span>Chef Profile</span></h3>
     <div class="row lazy">
       <div class="span3">
         <img src="images/assets/chef2.jpg" class="prof_photo" alt="大村 航介" loading="lazy" />
@@ -128,10 +147,135 @@
   </div>
 </section>
 
+<!-- ===== INTERIOR & EXTERIOR ===== -->
+<section id="home_interior_exterior">
+  <div class="container">
+    <h3 class="common section-heading">お店の雰囲気<span>Ambience</span></h3>
+    <div class="home-ambience-panel lazy">
+      <div class="home-ambience-carousel" aria-label="お店の雰囲気カルーセル">
+        <div class="home-ambience-carousel__track">
+          <div class="home-ambience-carousel__item">
+            <img src="images/uploads/2022/04/gai1.jpg" alt="お店の外観 1" loading="eager" />
+          </div>
+          <div class="home-ambience-carousel__item">
+            <img src="images/uploads/2022/04/gai2.jpg" alt="お店の外観 2" loading="lazy" />
+          </div>
+          <div class="home-ambience-carousel__item">
+            <img src="images/uploads/2022/04/nai1.jpg" alt="店内の雰囲気 1" loading="lazy" />
+          </div>
+          <div class="home-ambience-carousel__item">
+            <img src="images/uploads/2022/04/nai2.jpg" alt="店内の雰囲気 2" loading="lazy" />
+          </div>
+          <div class="home-ambience-carousel__item">
+            <img src="images/uploads/2022/04/nai3.jpg" alt="店内の雰囲気 3" loading="lazy" />
+          </div>
+          <div class="home-ambience-carousel__item">
+            <img src="images/uploads/2022/04/nai4.jpg" alt="店内の雰囲気 4" loading="lazy" />
+          </div>
+        </div>
+      </div>
+      <div class="home-ambience-carousel__controls">
+        <button type="button" class="home-ambience-carousel__arrow home-ambience-carousel__arrow--prev" aria-label="前の画像を見る">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <div class="home-ambience-carousel__count" aria-live="polite">
+          <span>1 / 6</span>
+        </div>
+        <button type="button" class="home-ambience-carousel__arrow home-ambience-carousel__arrow--next" aria-label="次の画像を見る">
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="home_gallery">
+  <div class="container">
+    <h3 class="common section-heading" data-num="04">ギャラリー<span>Gallery</span></h3>
+    <div class="single-page pg-gal home-gallery-panel lazy">
+      <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
+      <div class="gallery-carousel flexslider" aria-label="ギャラリーカルーセル">
+        <ul class="slides">
+          <li><a href="images/auto_gal/545E568C-E844-4F8C-9A32-F4E51A350470.JPG" class="gallery" aria-label="ギャラリー4を拡大表示"><img src="images/auto_gal/545E568C-E844-4F8C-9A32-F4E51A350470.JPG" alt="ギャラリー4" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/5E3F733A-5269-4A42-9A1C-62AF0CD7912C.JPG" class="gallery" aria-label="ギャラリー5を拡大表示"><img src="images/auto_gal/5E3F733A-5269-4A42-9A1C-62AF0CD7912C.JPG" alt="ギャラリー5" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_0069.JPG" class="gallery" aria-label="ギャラリー6を拡大表示"><img src="images/auto_gal/IMG_0069.JPG" alt="ギャラリー6" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_0164.jpg" class="gallery" aria-label="ギャラリー7を拡大表示"><img src="images/auto_gal/IMG_0164.jpg" alt="ギャラリー7" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_0401.JPG" class="gallery" aria-label="ギャラリー8を拡大表示"><img src="images/auto_gal/IMG_0401.JPG" alt="ギャラリー8" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_0660.jpg" class="gallery" aria-label="ギャラリー9を拡大表示"><img src="images/auto_gal/IMG_0660.jpg" alt="ギャラリー9" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_0926.jpg" class="gallery" aria-label="ギャラリー10を拡大表示"><img src="images/auto_gal/IMG_0926.jpg" alt="ギャラリー10" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1013.jpg" class="gallery" aria-label="ギャラリー11を拡大表示"><img src="images/auto_gal/IMG_1013.jpg" alt="ギャラリー11" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1014.jpg" class="gallery" aria-label="ギャラリー12を拡大表示"><img src="images/auto_gal/IMG_1014.jpg" alt="ギャラリー12" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1038.jpg" class="gallery" aria-label="ギャラリー13を拡大表示"><img src="images/auto_gal/IMG_1038.jpg" alt="ギャラリー13" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1055.jpg" class="gallery" aria-label="ギャラリー14を拡大表示"><img src="images/auto_gal/IMG_1055.jpg" alt="ギャラリー14" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1059.jpg" class="gallery" aria-label="ギャラリー15を拡大表示"><img src="images/auto_gal/IMG_1059.jpg" alt="ギャラリー15" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1597.jpg" class="gallery" aria-label="ギャラリー16を拡大表示"><img src="images/auto_gal/IMG_1597.jpg" alt="ギャラリー16" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_1680.jpg" class="gallery" aria-label="ギャラリー17を拡大表示"><img src="images/auto_gal/IMG_1680.jpg" alt="ギャラリー17" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2240.jpg" class="gallery" aria-label="ギャラリー18を拡大表示"><img src="images/auto_gal/IMG_2240.jpg" alt="ギャラリー18" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2252.JPG" class="gallery" aria-label="ギャラリー19を拡大表示"><img src="images/auto_gal/IMG_2252.JPG" alt="ギャラリー19" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2253.jpg" class="gallery" aria-label="ギャラリー20を拡大表示"><img src="images/auto_gal/IMG_2253.jpg" alt="ギャラリー20" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2254.JPG" class="gallery" aria-label="ギャラリー21を拡大表示"><img src="images/auto_gal/IMG_2254.JPG" alt="ギャラリー21" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2256.jpg" class="gallery" aria-label="ギャラリー22を拡大表示"><img src="images/auto_gal/IMG_2256.jpg" alt="ギャラリー22" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2259.JPG" class="gallery" aria-label="ギャラリー23を拡大表示"><img src="images/auto_gal/IMG_2259.JPG" alt="ギャラリー23" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2260.JPG" class="gallery" aria-label="ギャラリー24を拡大表示"><img src="images/auto_gal/IMG_2260.JPG" alt="ギャラリー24" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2269.jpg" class="gallery" aria-label="ギャラリー25を拡大表示"><img src="images/auto_gal/IMG_2269.jpg" alt="ギャラリー25" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2339.JPG" class="gallery" aria-label="ギャラリー26を拡大表示"><img src="images/auto_gal/IMG_2339.JPG" alt="ギャラリー26" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2340.JPG" class="gallery" aria-label="ギャラリー27を拡大表示"><img src="images/auto_gal/IMG_2340.JPG" alt="ギャラリー27" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2371.JPG" class="gallery" aria-label="ギャラリー28を拡大表示"><img src="images/auto_gal/IMG_2371.JPG" alt="ギャラリー28" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2393.JPG" class="gallery" aria-label="ギャラリー29を拡大表示"><img src="images/auto_gal/IMG_2393.JPG" alt="ギャラリー29" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2394.JPG" class="gallery" aria-label="ギャラリー30を拡大表示"><img src="images/auto_gal/IMG_2394.JPG" alt="ギャラリー30" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2396.JPG" class="gallery" aria-label="ギャラリー31を拡大表示"><img src="images/auto_gal/IMG_2396.JPG" alt="ギャラリー31" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2437.JPG" class="gallery" aria-label="ギャラリー32を拡大表示"><img src="images/auto_gal/IMG_2437.JPG" alt="ギャラリー32" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_2445.JPG" class="gallery" aria-label="ギャラリー33を拡大表示"><img src="images/auto_gal/IMG_2445.JPG" alt="ギャラリー33" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7034.jpg" class="gallery" aria-label="ギャラリー34を拡大表示"><img src="images/auto_gal/IMG_7034.jpg" alt="ギャラリー34" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7265.JPG" class="gallery" aria-label="ギャラリー35を拡大表示"><img src="images/auto_gal/IMG_7265.JPG" alt="ギャラリー35" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7312.JPG" class="gallery" aria-label="ギャラリー36を拡大表示"><img src="images/auto_gal/IMG_7312.JPG" alt="ギャラリー36" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7356.jpg" class="gallery" aria-label="ギャラリー37を拡大表示"><img src="images/auto_gal/IMG_7356.jpg" alt="ギャラリー37" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7368.jpg" class="gallery" aria-label="ギャラリー38を拡大表示"><img src="images/auto_gal/IMG_7368.jpg" alt="ギャラリー38" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7369.jpg" class="gallery" aria-label="ギャラリー39を拡大表示"><img src="images/auto_gal/IMG_7369.jpg" alt="ギャラリー39" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7373.jpg" class="gallery" aria-label="ギャラリー40を拡大表示"><img src="images/auto_gal/IMG_7373.jpg" alt="ギャラリー40" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7469.JPG" class="gallery" aria-label="ギャラリー41を拡大表示"><img src="images/auto_gal/IMG_7469.JPG" alt="ギャラリー41" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7505.jpg" class="gallery" aria-label="ギャラリー42を拡大表示"><img src="images/auto_gal/IMG_7505.jpg" alt="ギャラリー42" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7508.jpg" class="gallery" aria-label="ギャラリー43を拡大表示"><img src="images/auto_gal/IMG_7508.jpg" alt="ギャラリー43" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7509.jpg" class="gallery" aria-label="ギャラリー44を拡大表示"><img src="images/auto_gal/IMG_7509.jpg" alt="ギャラリー44" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7525.jpg" class="gallery" aria-label="ギャラリー45を拡大表示"><img src="images/auto_gal/IMG_7525.jpg" alt="ギャラリー45" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7527.jpg" class="gallery" aria-label="ギャラリー46を拡大表示"><img src="images/auto_gal/IMG_7527.jpg" alt="ギャラリー46" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7559.JPG" class="gallery" aria-label="ギャラリー47を拡大表示"><img src="images/auto_gal/IMG_7559.JPG" alt="ギャラリー47" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7578.jpg" class="gallery" aria-label="ギャラリー48を拡大表示"><img src="images/auto_gal/IMG_7578.jpg" alt="ギャラリー48" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7594.jpg" class="gallery" aria-label="ギャラリー49を拡大表示"><img src="images/auto_gal/IMG_7594.jpg" alt="ギャラリー49" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7729.jpg" class="gallery" aria-label="ギャラリー50を拡大表示"><img src="images/auto_gal/IMG_7729.jpg" alt="ギャラリー50" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_7764.JPG" class="gallery" aria-label="ギャラリー51を拡大表示"><img src="images/auto_gal/IMG_7764.JPG" alt="ギャラリー51" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8175.JPG" class="gallery" aria-label="ギャラリー52を拡大表示"><img src="images/auto_gal/IMG_8175.JPG" alt="ギャラリー52" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8302.JPG" class="gallery" aria-label="ギャラリー53を拡大表示"><img src="images/auto_gal/IMG_8302.JPG" alt="ギャラリー53" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8332.JPG" class="gallery" aria-label="ギャラリー54を拡大表示"><img src="images/auto_gal/IMG_8332.JPG" alt="ギャラリー54" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8436.JPG" class="gallery" aria-label="ギャラリー55を拡大表示"><img src="images/auto_gal/IMG_8436.JPG" alt="ギャラリー55" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8611.JPG" class="gallery" aria-label="ギャラリー56を拡大表示"><img src="images/auto_gal/IMG_8611.JPG" alt="ギャラリー56" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8661.JPG" class="gallery" aria-label="ギャラリー58を拡大表示"><img src="images/auto_gal/IMG_8661.JPG" alt="ギャラリー58" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8662.JPG" class="gallery" aria-label="ギャラリー59を拡大表示"><img src="images/auto_gal/IMG_8662.JPG" alt="ギャラリー59" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_8675.jpg" class="gallery" aria-label="ギャラリー60を拡大表示"><img src="images/auto_gal/IMG_8675.jpg" alt="ギャラリー60" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9697.JPG" class="gallery" aria-label="ギャラリー61を拡大表示"><img src="images/auto_gal/IMG_9697.JPG" alt="ギャラリー61" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9932.jpg" class="gallery" aria-label="ギャラリー62を拡大表示"><img src="images/auto_gal/IMG_9932.jpg" alt="ギャラリー62" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9933.jpg" class="gallery" aria-label="ギャラリー63を拡大表示"><img src="images/auto_gal/IMG_9933.jpg" alt="ギャラリー63" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9934.jpg" class="gallery" aria-label="ギャラリー64を拡大表示"><img src="images/auto_gal/IMG_9934.jpg" alt="ギャラリー64" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9935.JPG" class="gallery" aria-label="ギャラリー65を拡大表示"><img src="images/auto_gal/IMG_9935.JPG" alt="ギャラリー65" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9936.jpg" class="gallery" aria-label="ギャラリー66を拡大表示"><img src="images/auto_gal/IMG_9936.jpg" alt="ギャラリー66" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9940.JPG" class="gallery" aria-label="ギャラリー67を拡大表示"><img src="images/auto_gal/IMG_9940.JPG" alt="ギャラリー67" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9942.JPG" class="gallery" aria-label="ギャラリー68を拡大表示"><img src="images/auto_gal/IMG_9942.JPG" alt="ギャラリー68" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9943.JPG" class="gallery" aria-label="ギャラリー69を拡大表示"><img src="images/auto_gal/IMG_9943.JPG" alt="ギャラリー69" loading="lazy" /></a></li>
+          <li><a href="images/auto_gal/IMG_9944.JPG" class="gallery" aria-label="ギャラリー70を拡大表示"><img src="images/auto_gal/IMG_9944.JPG" alt="ギャラリー70" loading="lazy" /></a></li>
+        </ul>
+      </div>
+      <div class="gallery-slider-status home-gallery-status" aria-live="polite">
+        <span>1 / 66</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== ACCESS ===== -->
 <section id="home_access">
   <div class="container">
-    <h3 class="common">アクセス・営業時間<span>Access &amp; Hours</span></h3>
+    <h3 class="common section-heading" data-num="05">アクセス・営業時間<span>Access &amp; Hours</span></h3>
     <div class="row lazy">
       <div class="span5">
         <div class="google-maps">
@@ -171,7 +315,9 @@
 
 <!-- ===== FOOTER ===== -->
 <footer>
-  <span class="footer-name">ビストロ グランヴィラージュ</span>
+  <p class="footer-logo">
+    <img src="images/assets/logo_footer.png" alt="ビストロ グランヴィラージュ" />
+  </p>
   <div class="footer_social">
     <a href="https://www.facebook.com/grandvillage.yokohama/" target="_blank" rel="noopener" aria-label="Facebook">
       <img src="images/assets/icon_fb.png" alt="Facebook" />
@@ -180,11 +326,8 @@
       <img src="images/assets/icon_instagram.png" alt="Instagram" />
     </a>
   </div>
-  <p class="footer-copy">
-    Copyright &copy; <a href="index.html">ビストロ グランヴィラージュ</a> All Rights Reserved.<br />
-    Designed by <a href="https://www.8th-ocean.co.jp/" target="_blank" rel="noopener">8thOcean.</a>
-  </p>
 </footer>
+</div>
 
 <!-- SP Fixed Bottom Bar -->
 <div id="sp_fixed_bar">
@@ -211,29 +354,126 @@
 <script>
 jQuery(function($) {
   // FlexSlider
-  $('.flexslider').flexslider({
+  $('#top_cover .flexslider').flexslider({
     animation: 'fade',
     slideshowSpeed: 5000,
     animationSpeed: 800,
     pauseOnHover: true
   });
 
-  // ハンバーガーメニュー
-  $('#menu_bars').on('click', function() {
-    var $menu = $('.header_menu');
-    var isOpen = $menu.hasClass('open');
-    $menu.toggleClass('open');
-    $(this).attr('aria-expanded', !isOpen);
-    if (isOpen) {
-      $(this).removeClass('menu_bars_close');
-    } else {
-      $(this).addClass('menu_bars_close');
+  var $galleryCarousel = $('.gallery-carousel');
+  if ($galleryCarousel.length) {
+    var $galleryStatus = $('.home-gallery-status span');
+    var updateGalleryStatus = function(slider, currentIndex) {
+      if (!$galleryStatus.length) {
+        return;
+      }
+
+      var total = slider && slider.count ? slider.count : $galleryCarousel.find('.slides > li:not(.clone)').length;
+      var current = typeof currentIndex === 'number'
+        ? currentIndex
+        : (slider && typeof slider.currentSlide === 'number' ? slider.currentSlide + 1 : 1);
+
+      $galleryStatus.text(current + ' / ' + total);
+    };
+
+    updateGalleryStatus(null, 1);
+    $galleryCarousel.flexslider({
+      animation: 'fade',
+      slideshow: true,
+      slideshowSpeed: 3600,
+      animationSpeed: 900,
+      animationLoop: true,
+      smoothHeight: true,
+      controlNav: false,
+      directionNav: false,
+      pauseOnHover: false,
+      prevText: '',
+      nextText: '',
+      before: function(slider) {
+        updateGalleryStatus(slider, slider.animatingTo + 1);
+      },
+      start: function(slider) {
+        updateGalleryStatus(slider);
+      },
+      after: function(slider) {
+        updateGalleryStatus(slider);
+      }
+    });
+  }
+
+  var ambienceCarousel = document.querySelector('.home-ambience-carousel');
+  var ambienceTrack = document.querySelector('.home-ambience-carousel__track');
+  var ambiencePrev = document.querySelector('.home-ambience-carousel__arrow--prev');
+  var ambienceNext = document.querySelector('.home-ambience-carousel__arrow--next');
+  var ambienceCount = document.querySelector('.home-ambience-carousel__count span');
+  var ambienceSlides = ambienceTrack ? ambienceTrack.children : [];
+
+  function updateAmbienceCarouselState() {
+    if (!ambienceCarousel || !ambienceSlides.length) {
+      return;
     }
-  });
-  $('#fixed_header .header_menu a').on('click', function() {
-    $('.header_menu').removeClass('open');
-    $('#menu_bars').attr('aria-expanded', 'false').removeClass('menu_bars_close');
-  });
+
+    var slideWidth = ambienceCarousel.clientWidth;
+    if (!slideWidth) {
+      return;
+    }
+
+    var currentIndex = Math.round(ambienceCarousel.scrollLeft / slideWidth) + 1;
+    currentIndex = Math.max(1, Math.min(currentIndex, ambienceSlides.length));
+
+    if (ambienceCount) {
+      ambienceCount.textContent = currentIndex + ' / ' + ambienceSlides.length;
+    }
+    if (ambiencePrev) {
+      ambiencePrev.disabled = currentIndex <= 1;
+    }
+    if (ambienceNext) {
+      ambienceNext.disabled = currentIndex >= ambienceSlides.length;
+    }
+  }
+
+  function moveAmbienceCarousel(direction) {
+    if (!ambienceCarousel || !ambienceSlides.length) {
+      return;
+    }
+
+    var slideWidth = ambienceCarousel.clientWidth;
+    if (!slideWidth) {
+      return;
+    }
+
+    var currentIndex = Math.round(ambienceCarousel.scrollLeft / slideWidth);
+    var nextIndex = Math.max(0, Math.min(currentIndex + direction, ambienceSlides.length - 1));
+
+    ambienceCarousel.scrollTo({
+      left: nextIndex * slideWidth,
+      behavior: 'smooth'
+    });
+  }
+
+  if (ambienceCarousel) {
+    updateAmbienceCarouselState();
+
+    if (ambiencePrev) {
+      ambiencePrev.addEventListener('click', function() {
+        moveAmbienceCarousel(-1);
+      });
+    }
+    if (ambienceNext) {
+      ambienceNext.addEventListener('click', function() {
+        moveAmbienceCarousel(1);
+      });
+    }
+
+    ambienceCarousel.addEventListener('scroll', function() {
+      window.requestAnimationFrame(updateAmbienceCarouselState);
+    });
+
+    window.addEventListener('resize', function() {
+      window.requestAnimationFrame(updateAmbienceCarouselState);
+    });
+  }
 
   // スクロール時ヘッダーシャドウ
   $(window).on('scroll', function() {
@@ -254,6 +494,172 @@ jQuery(function($) {
   }
   $(window).on('scroll', checkLazy);
   checkLazy();
+
+  // Instagram widget: custom full-width swipe carousel on mobile only
+  var instagramWidget = document.querySelector('#home_instagram behold-widget');
+  var instagramFeedShell = document.querySelector('#home_instagram .instagram-feed-shell');
+  var instagramMobileCarousel = document.querySelector('#home_instagram .instagram-mobile-carousel');
+  var instagramMobileTrack = document.querySelector('#home_instagram .instagram-mobile-carousel__track');
+  var instagramMobilePrev = document.querySelector('#home_instagram .instagram-mobile-carousel__arrow--prev');
+  var instagramMobileNext = document.querySelector('#home_instagram .instagram-mobile-carousel__arrow--next');
+  var instagramMobileCount = document.querySelector('#home_instagram .instagram-mobile-carousel__count span');
+  var instagramFeedId = instagramWidget ? instagramWidget.getAttribute('feed-id') : null;
+  var instagramMobileLoaded = false;
+  var instagramMobilePostCount = 0;
+
+  function isMobileInstagramCarousel() {
+    return window.matchMedia('(max-width: 767px)').matches;
+  }
+
+  function setInstagramMobileState(enabled) {
+    if (!instagramFeedShell) {
+      return;
+    }
+    instagramFeedShell.classList.toggle('instagram-mobile-carousel-ready', enabled);
+  }
+
+  function updateInstagramMobileCount(current, total) {
+    if (!instagramMobileCount) {
+      return;
+    }
+    instagramMobileCount.textContent = current + ' / ' + total;
+  }
+
+  function updateInstagramMobileArrows(current, total) {
+    if (!instagramMobilePrev || !instagramMobileNext) {
+      return;
+    }
+    instagramMobilePrev.disabled = current <= 1;
+    instagramMobileNext.disabled = current >= total;
+  }
+
+  function renderInstagramMobileSlides(posts) {
+    if (!instagramMobileTrack) {
+      return;
+    }
+
+    instagramMobileTrack.innerHTML = '';
+    instagramMobilePostCount = posts.length;
+
+    posts.forEach(function(post, index) {
+      var imageUrl = post.sizes && post.sizes.large ? post.sizes.large.mediaUrl : post.mediaUrl;
+      var slide = document.createElement('div');
+      var link = document.createElement('a');
+      var image = document.createElement('img');
+
+      slide.className = 'instagram-mobile-carousel__item';
+      link.href = post.permalink;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.setAttribute('aria-label', 'Instagram投稿' + (index + 1) + 'を見る');
+
+      image.src = imageUrl;
+      image.alt = 'Instagram投稿 ' + (index + 1);
+      image.loading = index === 0 ? 'eager' : 'lazy';
+
+      link.appendChild(image);
+      slide.appendChild(link);
+      instagramMobileTrack.appendChild(slide);
+    });
+
+    updateInstagramMobileCount(1, instagramMobilePostCount);
+    updateInstagramMobileArrows(1, instagramMobilePostCount);
+  }
+
+  function syncInstagramMobileCountFromScroll() {
+    if (!instagramMobileCarousel || !instagramMobilePostCount) {
+      return;
+    }
+
+    var slideWidth = instagramMobileCarousel.clientWidth;
+    if (!slideWidth) {
+      return;
+    }
+
+    var currentIndex = Math.round(instagramMobileCarousel.scrollLeft / slideWidth) + 1;
+    currentIndex = Math.max(1, Math.min(currentIndex, instagramMobilePostCount));
+    updateInstagramMobileCount(currentIndex, instagramMobilePostCount);
+    updateInstagramMobileArrows(currentIndex, instagramMobilePostCount);
+  }
+
+  function moveInstagramMobileCarousel(direction) {
+    if (!instagramMobileCarousel || !instagramMobilePostCount) {
+      return;
+    }
+
+    var slideWidth = instagramMobileCarousel.clientWidth;
+    if (!slideWidth) {
+      return;
+    }
+
+    var currentIndex = Math.round(instagramMobileCarousel.scrollLeft / slideWidth);
+    var nextIndex = Math.max(0, Math.min(currentIndex + direction, instagramMobilePostCount - 1));
+
+    instagramMobileCarousel.scrollTo({
+      left: nextIndex * slideWidth,
+      behavior: 'smooth'
+    });
+  }
+
+  async function ensureInstagramMobileCarousel() {
+    if (!instagramFeedId || !instagramMobileCarousel) {
+      return;
+    }
+
+    if (!isMobileInstagramCarousel()) {
+      setInstagramMobileState(false);
+      return;
+    }
+
+    if (instagramMobileLoaded) {
+      setInstagramMobileState(true);
+      return;
+    }
+
+    try {
+      var response = await fetch('https://feeds.behold.so/' + instagramFeedId, { mode: 'cors' });
+      if (!response.ok) {
+        throw new Error('Instagram feed request failed');
+      }
+
+      var feed = await response.json();
+      var posts = (feed.posts || []).slice(0, 10);
+
+      if (!posts.length) {
+        setInstagramMobileState(false);
+        return;
+      }
+
+      renderInstagramMobileSlides(posts);
+      instagramMobileLoaded = true;
+      setInstagramMobileState(true);
+    } catch (error) {
+      setInstagramMobileState(false);
+    }
+  }
+
+  if (instagramWidget) {
+    ensureInstagramMobileCarousel();
+    if (instagramMobilePrev) {
+      instagramMobilePrev.addEventListener('click', function() {
+        moveInstagramMobileCarousel(-1);
+      });
+    }
+    if (instagramMobileNext) {
+      instagramMobileNext.addEventListener('click', function() {
+        moveInstagramMobileCarousel(1);
+      });
+    }
+    instagramMobileCarousel.addEventListener('scroll', function() {
+      window.requestAnimationFrame(syncInstagramMobileCountFromScroll);
+    });
+    window.addEventListener('resize', function() {
+      window.requestAnimationFrame(function() {
+        ensureInstagramMobileCarousel();
+        syncInstagramMobileCountFromScroll();
+      });
+    });
+  }
 });
 </script>
 </body>

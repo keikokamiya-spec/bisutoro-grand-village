@@ -61,9 +61,26 @@ function bgv_nav_items() {
   );
 }
 
+function bgv_home_section_anchor($slug) {
+  $anchors = array(
+    'interior-exterior' => 'home_interior_exterior',
+    'gallery' => 'home_gallery',
+  );
+
+  return isset($anchors[$slug]) ? $anchors[$slug] : '';
+}
+
+function bgv_is_home_section_slug($slug) {
+  return bgv_home_section_anchor($slug) !== '';
+}
+
 function bgv_page_url($slug) {
   if ($slug === '#home_access') {
     return esc_url(home_url('/#home_access'));
+  }
+
+  if (bgv_is_home_section_slug($slug)) {
+    return esc_url(home_url('/#' . bgv_home_section_anchor($slug)));
   }
 
   $page = get_page_by_path($slug);
@@ -75,12 +92,27 @@ function bgv_page_url($slug) {
 }
 
 function bgv_is_active_slug($slug) {
-  if ($slug === '#home_access') {
+  if ($slug === '#home_access' || bgv_is_home_section_slug($slug)) {
     return false;
   }
 
   return is_page($slug);
 }
+
+function bgv_redirect_legacy_section_pages() {
+  if (! is_page()) {
+    return;
+  }
+
+  $post = get_post();
+  if (! $post || ! bgv_is_home_section_slug($post->post_name)) {
+    return;
+  }
+
+  wp_safe_redirect(home_url('/#' . bgv_home_section_anchor($post->post_name)), 301);
+  exit;
+}
+add_action('template_redirect', 'bgv_redirect_legacy_section_pages');
 
 function bgv_transform_static_content($content) {
   $theme_uri = get_template_directory_uri();
@@ -137,6 +169,94 @@ function bgv_extract_static_main_content($file) {
   }
 
   return '';
+}
+
+function bgv_render_interior_exterior_sections() {
+  ?>
+  <div class="photos interior-exterior-photos">
+    <section class="photos-section">
+      <h4 class="photos-section-title">外観<span>Exterior</span></h4>
+      <div class="photos-slider">
+        <figure><img decoding="async" loading="lazy" src="<?php echo bgv_asset('images/uploads/2022/04/gai1.jpg'); ?>" alt="外観1" /></figure>
+        <figure><img decoding="async" loading="lazy" src="<?php echo bgv_asset('images/uploads/2022/04/gai2.jpg'); ?>" alt="外観2" /></figure>
+      </div>
+    </section>
+    <section class="photos-section">
+      <h4 class="photos-section-title">内観<span>Interior</span></h4>
+      <div class="photos-slider">
+        <figure><img decoding="async" loading="lazy" src="<?php echo bgv_asset('images/uploads/2022/04/nai1.jpg'); ?>" alt="内観1" /></figure>
+        <figure><img decoding="async" loading="lazy" src="<?php echo bgv_asset('images/uploads/2022/04/nai2.jpg'); ?>" alt="内観2" /></figure>
+        <figure><img decoding="async" loading="lazy" src="<?php echo bgv_asset('images/uploads/2022/04/nai3.jpg'); ?>" alt="内観3" /></figure>
+        <figure><img decoding="async" loading="lazy" src="<?php echo bgv_asset('images/uploads/2022/04/nai4.jpg'); ?>" alt="内観4" /></figure>
+      </div>
+    </section>
+  </div>
+  <?php
+}
+
+function bgv_get_gallery_images() {
+  $gallery_dir = get_template_directory() . '/images/auto_gal';
+  $gallery_uri = get_template_directory_uri() . '/images/auto_gal';
+  $images = glob($gallery_dir . '/*.{jpg,jpeg,JPG,JPEG,png,PNG}', GLOB_BRACE);
+  if (! is_array($images)) {
+    return array();
+  }
+
+  sort($images, SORT_NATURAL | SORT_FLAG_CASE);
+
+  $items = array();
+  foreach ($images as $index => $image_path) {
+    $filename = basename($image_path);
+    $url = esc_url($gallery_uri . '/' . rawurlencode($filename));
+    $alt = 'ギャラリー' . ($index + 1);
+    $items[] = array(
+      'full_url' => $url,
+      'thumb_html' => '<img src="' . $url . '" alt="' . esc_attr($alt) . '" loading="lazy" decoding="async" />',
+      'alt' => $alt,
+    );
+  }
+
+  return $items;
+}
+
+function bgv_render_gallery_stack_list($images) {
+  if (! is_array($images) || empty($images)) {
+    return false;
+  }
+
+  $chunks = array_chunk($images, 3);
+  $patterns = array(
+    array(0, 1, 2),
+    array(1, 2, 0),
+    array(2, 0, 1),
+  );
+  $total_images = count($images);
+  $fallback_index = 0;
+
+  echo '<ul class="gallery-stack-grid">';
+  foreach ($chunks as $stack_index => $chunk) {
+    while (count($chunk) < 3 && $total_images > 0) {
+      $chunk[] = $images[$fallback_index % $total_images];
+      $fallback_index++;
+    }
+
+    $pattern = $patterns[$stack_index % count($patterns)];
+    echo '<li' . ($stack_index >= 6 ? ' class="lazy"' : '') . '>';
+    echo '<div class="gallery-stack gallery-stack-' . esc_attr((string) (($stack_index % 3) + 1)) . '">';
+
+    foreach ($pattern as $layer_index => $image_index) {
+      $image = $chunk[$image_index];
+      echo '<a href="' . esc_url($image['full_url']) . '" class="gallery gallery-stack-layer layer-' . esc_attr((string) ($layer_index + 1)) . '" aria-label="' . esc_attr($image['alt']) . 'を拡大表示">';
+      echo $image['thumb_html'];
+      echo '</a>';
+    }
+
+    echo '</div>';
+    echo '</li>';
+  }
+  echo '</ul>';
+
+  return true;
 }
 
 function bgv_seed_editable_pages() {

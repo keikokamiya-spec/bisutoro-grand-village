@@ -18,11 +18,18 @@ jQuery(function() {
         nextText    : ""
     });
     // DropMenu
-    jQuery('#menu_bars').click(function() {
-        jQuery('.header_menu').slideToggle('fast');
-        jQuery("#menu_bars").toggleClass("menu_bars_close");
-        if($('#wpadminbar').length){
-             $('.header_menu').css('top', '116px' );
+    jQuery('#menu_bars').on('click', function(e) {
+        e.preventDefault();
+        var $trigger = jQuery(this);
+        var $menu = jQuery('.header_menu');
+
+        $menu.stop(true, true).slideToggle('fast');
+        $trigger.toggleClass('menu_bars_close');
+        jQuery('#fixed_header').toggleClass('menu_open');
+        $trigger.attr('aria-expanded', $trigger.hasClass('menu_bars_close') ? 'true' : 'false');
+
+        if (jQuery('#wpadminbar').length) {
+            $menu.css('top', '116px');
         }
     });
 
@@ -43,7 +50,7 @@ jQuery(function() {
         }, 
     });
 
-    jQuery('.pg-gal > ul, .photos-slider').each(function() {
+    jQuery('.photos-slider').each(function() {
         var $track = jQuery(this);
         var $slides = $track.children('li, figure');
         var $status = jQuery('<div class="gallery-slider-status" aria-hidden="true"><span>1 / ' + $slides.length + '</span></div>');

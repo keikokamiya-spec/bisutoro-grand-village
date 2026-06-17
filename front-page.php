@@ -57,6 +57,23 @@
   </div>
 </section>
 
+<section id="home_interior_exterior">
+  <div class="container">
+    <h3 class="common">内観＆外観<span>Interior & Exterior</span></h3>
+    <?php bgv_render_interior_exterior_sections(); ?>
+  </div>
+</section>
+
+<section id="home_gallery">
+  <div class="container">
+    <h3 class="common">ギャラリー<span>Gallery</span></h3>
+    <div class="single-page pg-gal home-gallery-panel">
+      <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
+      <?php bgv_render_gallery_stack_list(bgv_get_gallery_images()); ?>
+    </div>
+  </div>
+</section>
+
 <section id="home_access">
   <div class="container">
     <h3 class="common">アクセス<span>Access</span></h3>

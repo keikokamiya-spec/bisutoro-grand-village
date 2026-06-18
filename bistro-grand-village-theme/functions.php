@@ -17,6 +17,15 @@ function bgv_asset_path($path = '') {
   return get_template_directory() . '/' . ltrim($path, '/');
 }
 
+function bgv_asset_exists($path = '') {
+  $asset_path = bgv_asset_path($path);
+  return $path !== '' && file_exists($asset_path);
+}
+
+function bgv_asset_uri_if_exists($path = '') {
+  return bgv_asset_exists($path) ? bgv_asset_uri($path) : '';
+}
+
 function bgv_setup() {
   add_theme_support('title-tag');
   add_theme_support('post-thumbnails');
@@ -883,11 +892,11 @@ function bgv_default_interior_exterior_sections() {
       'subtitle' => 'Exterior',
       'images' => array(
         array(
-          'src' => bgv_asset_uri('assets/images/uploads/2022/04/gai1.jpg'),
+          'src' => bgv_asset_uri_if_exists('assets/images/uploads/2022/04/gai1.jpg'),
           'alt' => '外観1',
         ),
         array(
-          'src' => bgv_asset_uri('assets/images/uploads/2022/04/gai2.jpg'),
+          'src' => bgv_asset_uri_if_exists('assets/images/uploads/2022/04/gai2.jpg'),
           'alt' => '外観2',
         ),
       ),
@@ -897,19 +906,19 @@ function bgv_default_interior_exterior_sections() {
       'subtitle' => 'Interior',
       'images' => array(
         array(
-          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai1.jpg'),
+          'src' => bgv_asset_uri_if_exists('assets/images/uploads/2022/04/nai1.jpg'),
           'alt' => '内観1',
         ),
         array(
-          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai2.jpg'),
+          'src' => bgv_asset_uri_if_exists('assets/images/uploads/2022/04/nai2.jpg'),
           'alt' => '内観2',
         ),
         array(
-          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai3.jpg'),
+          'src' => bgv_asset_uri_if_exists('assets/images/uploads/2022/04/nai3.jpg'),
           'alt' => '内観3',
         ),
         array(
-          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai4.jpg'),
+          'src' => bgv_asset_uri_if_exists('assets/images/uploads/2022/04/nai4.jpg'),
           'alt' => '内観4',
         ),
       ),
@@ -1057,8 +1066,12 @@ function bgv_get_gallery_images($post_id = null) {
         }
       }
 
-      $url = bgv_asset_uri('assets/images/auto_gal/' . rawurlencode($default_file));
+      $fallback_path = 'assets/images/auto_gal/' . $default_file;
+      $url = bgv_asset_uri_if_exists($fallback_path);
       $alt = bgv_get_field('gallery_image_' . $i . '_alt', $default_alt, $target_post_id);
+      if ($url === '') {
+        continue;
+      }
       $images[] = array(
         'full_url' => $url,
         'thumb_html' => '<img src="' . esc_url($url) . '" alt="' . esc_attr($alt) . '" loading="lazy" decoding="async" />',
@@ -1270,8 +1283,8 @@ function bgv_static_default_content($filename) {
 
 function bgv_default_kokuban_images() {
   return array(
-    array('url' => bgv_asset_uri('assets/images/assets/kokuban-menu-1.png'), 'width' => 945, 'height' => 705),
-    array('url' => bgv_asset_uri('assets/images/assets/kokuban-menu-2.png'), 'width' => 934, 'height' => 698),
+    array('url' => bgv_asset_uri_if_exists('assets/images/assets/kokuban-menu-1.png'), 'width' => 945, 'height' => 705),
+    array('url' => bgv_asset_uri_if_exists('assets/images/assets/kokuban-menu-2.png'), 'width' => 934, 'height' => 698),
   );
 }
 
@@ -1363,8 +1376,8 @@ function bgv_default_drink_sections() {
 function bgv_default_food_sections() {
   return array(
     array('title' => '前菜', 'subtitle' => 'ape’ritif', 'items' => array(
-      array('name' => 'シェフおまかせ前菜７種盛り合わせ（2名様分）', 'price' => '1,800', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/オードブル盛り合わせ.jpg')),
-      array('name' => '８品目の菜園風サラダ', 'price' => '1,200', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/菜園風サラダ.jpg')),
+      array('name' => 'シェフおまかせ前菜７種盛り合わせ（2名様分）', 'price' => '1,800', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/オードブル盛り合わせ.jpg')),
+      array('name' => '８品目の菜園風サラダ', 'price' => '1,200', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/菜園風サラダ.jpg')),
       array('name' => '鴨胸肉のスモークとクレソンのサラダ仕立て〜バルサミコソース〜', 'price' => '1,450'),
       array('name' => 'フレンチポテトのスパイス和え', 'price' => '650'),
       array('name' => 'アンチョビキャベツソテー', 'price' => '650'),
@@ -1374,33 +1387,33 @@ function bgv_default_food_sections() {
       array('name' => 'お酒のお供３種盛り合わせ<br /><span class="fs80">仏産 ミモレットチーズ／仏産 熟成サラミ／伊産 生ハム</span>', 'price' => '1,500<span>ハーフ</span>750'),
     )),
     array('title' => '魚介', 'subtitle' => 'poisons', 'items' => array(
-      array('name' => '殻付き生牡蠣<span class="fs80">（産地は黒板をご覧ください）</span>', 'price' => '500', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/生牡蠣.jpg')),
+      array('name' => '殻付き生牡蠣<span class="fs80">（産地は黒板をご覧ください）</span>', 'price' => '500', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/生牡蠣.jpg')),
       array('name' => '海老とアボカドのカクテルソース', 'price' => '1,350'),
       array('name' => 'ズワイガニとアボカドのコンソメジュレがけ ～カリフラワーのムース添え～', 'price' => '1,450', 'url' => 'https://grand-village.yokohama/archives/52'),
-      array('name' => '大分県豊後水道産 天然真鯛のカルパッチョ仕立て', 'price' => '1,600', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/真鯛のカルパッチョ.jpg')),
+      array('name' => '大分県豊後水道産 天然真鯛のカルパッチョ仕立て', 'price' => '1,600', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/真鯛のカルパッチョ.jpg')),
       array('name' => 'カニミソとマスカルポーネチーズのディップ<span class="fs80">（バゲット付き）</span>', 'price' => '1,100'),
       array('name' => 'ヤリイカとポワロー（西洋ねぎ）のフリット カラスミパウダーがけ', 'price' => '1,400'),
       array('name' => '本日のお魚料理（スタッフまでお尋ね下さい）', 'price' => '1,800'),
-      array('name' => 'ツブ貝とキノコのソテー ～香草バターソース～', 'price' => '1,650', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/ツブ貝のソテー香草バターソース.jpg')),
+      array('name' => 'ツブ貝とキノコのソテー ～香草バターソース～', 'price' => '1,650', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/ツブ貝のソテー香草バターソース.jpg')),
     )),
     array('title' => '肉', 'subtitle' => 'viands', 'items' => array(
-      array('name' => 'フォアグラのソテー ～ポルト酒のソース～', 'price' => '1,980', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/フォアグラのソテー.jpg')),
-      array('name' => '牛ハラミ肉のグリルと彩り野菜 ～マデイラソース～', 'price' => '<span>150g</span>1,980<span>200g</span>2,480<span>250g</span>2,980', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/牛ハラミ肉のグリルマディラソース.jpg')),
+      array('name' => 'フォアグラのソテー ～ポルト酒のソース～', 'price' => '1,980', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/フォアグラのソテー.jpg')),
+      array('name' => '牛ハラミ肉のグリルと彩り野菜 ～マデイラソース～', 'price' => '<span>150g</span>1,980<span>200g</span>2,480<span>250g</span>2,980', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/牛ハラミ肉のグリルマディラソース.jpg')),
       array('name' => '仔羊のロースト（ラムチョップ）１本', 'price' => '1,600'),
-      array('name' => '鴨胸肉のロースト赤ワインとゴルゴンゾーラのソース', 'price' => '1,980', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/鴨肉のロースト赤ワイン.jpg')),
-      array('name' => '地鶏“あべどり”のグリル 粒マスタードソース', 'price' => '1,450', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/あべ鶏のグリル粒マスタードソース.jpg')),
+      array('name' => '鴨胸肉のロースト赤ワインとゴルゴンゾーラのソース', 'price' => '1,980', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/鴨肉のロースト赤ワイン.jpg')),
+      array('name' => '地鶏“あべどり”のグリル 粒マスタードソース', 'price' => '1,450', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/あべ鶏のグリル粒マスタードソース.jpg')),
       array('name' => '岩中（いわちゅう）豚 肩ロースのグリルと彩り野菜〜バルサミコソース〜', 'price' => '1,600'),
       array('name' => 'ガーリックトースト<span class="fs80">（３枚）</span>', 'price' => '550'),
       array('name' => 'バゲット<span class="fs80">（２枚）</span>', 'price' => '350'),
     )),
     array('title' => 'パスタ＆リゾット', 'subtitle' => 'pasta & risotto', 'items' => array(
-      array('name' => '広島産カキのクリームリゾット 又はスパゲッティ', 'price' => '1,600', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/牡蠣のクリームリゾット.jpg')),
-      array('name' => 'ズワイガニとカブのリゾット～柚子の香り～', 'price' => '1,500', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/ズワイガニとカブのリゾット.jpg')),
-      array('name' => 'アスパラガスとキノコのリゾット', 'price' => '1,350', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/アスパラとキノコのリゾット.jpg')),
-      array('name' => 'ポルチーニ茸と数種キノコのリゾット 又はスパゲッティ', 'price' => '1,650', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/ポルチーニのリゾット.jpg')),
-      array('name' => 'シラスのペペロンチーノ カラスミパウダーがけ', 'price' => '1,550', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/シラスのペペロンチーノ.jpg')),
-      array('name' => 'スパゲッティ カルボナーラ', 'price' => '1,350', 'image' => bgv_asset_uri('assets/images/uploads/2021/08/イベリコベーコンのカルボナーラ.jpg')),
-      array('name' => 'スパゲッティ アマトリチャーナ（イベリコ豚ベーコンと玉ねぎのトマトソース）', 'price' => '1,350', 'image' => bgv_asset_uri('assets/images/uploads/2021/02/スパゲッティアマトリチャーナ.jpg')),
+      array('name' => '広島産カキのクリームリゾット 又はスパゲッティ', 'price' => '1,600', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/牡蠣のクリームリゾット.jpg')),
+      array('name' => 'ズワイガニとカブのリゾット～柚子の香り～', 'price' => '1,500', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/ズワイガニとカブのリゾット.jpg')),
+      array('name' => 'アスパラガスとキノコのリゾット', 'price' => '1,350', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/アスパラとキノコのリゾット.jpg')),
+      array('name' => 'ポルチーニ茸と数種キノコのリゾット 又はスパゲッティ', 'price' => '1,650', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/ポルチーニのリゾット.jpg')),
+      array('name' => 'シラスのペペロンチーノ カラスミパウダーがけ', 'price' => '1,550', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/シラスのペペロンチーノ.jpg')),
+      array('name' => 'スパゲッティ カルボナーラ', 'price' => '1,350', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/08/イベリコベーコンのカルボナーラ.jpg')),
+      array('name' => 'スパゲッティ アマトリチャーナ（イベリコ豚ベーコンと玉ねぎのトマトソース）', 'price' => '1,350', 'image' => bgv_asset_uri_if_exists('assets/images/uploads/2021/02/スパゲッティアマトリチャーナ.jpg')),
       array('name' => 'ペンネのゴルゴンゾーラソース', 'price' => '1,300'),
     )),
   );

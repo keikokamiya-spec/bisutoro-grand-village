@@ -5,6 +5,7 @@ Template Name: トップページ
 get_header();
 $gallery_page = get_page_by_path('gallery');
 $gallery_post_id = $gallery_page ? $gallery_page->ID : 0;
+$gallery_images = bgv_get_gallery_images($gallery_post_id);
 $interior_exterior_page = get_page_by_path('interior-exterior');
 $interior_exterior_post_id = $interior_exterior_page ? $interior_exterior_page->ID : 0;
 ?>
@@ -89,8 +90,12 @@ $interior_exterior_post_id = $interior_exterior_page ? $interior_exterior_page->
     <div class="section_shell gallery_section_shell">
       <h3 class="common">ギャラリー<span>Gallery</span></h3>
       <div class="single-page pg-gal home-gallery-panel">
-        <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
-        <?php bgv_render_gallery_stack_list(bgv_get_gallery_images($gallery_post_id)); ?>
+        <?php if (! empty($gallery_images)) : ?>
+          <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
+          <?php bgv_render_gallery_stack_list($gallery_images); ?>
+        <?php else : ?>
+          <p>ギャラリー画像は管理画面のACFから登録できます。</p>
+        <?php endif; ?>
       </div>
     </div>
   </div>

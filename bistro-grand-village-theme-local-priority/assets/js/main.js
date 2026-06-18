@@ -1,0 +1,118 @@
+//Fade images
+jQuery(function() {
+    jQuery(".mouseonfade img").hover(function() {
+        jQuery(this).stop().animate({
+            opacity: "0.6"
+        }, '5000');
+    },
+    function() {
+        jQuery(this).stop().animate({
+            opacity: "1.0"
+        }, '100');
+    });
+    // FlexSlider
+    jQuery('.flexslider').not('.gallery-carousel').flexslider({
+        animation   : "slide",
+        directionNav: true,
+        prevText    : "",
+        nextText    : ""
+    });
+    // DropMenu
+    jQuery('#menu_bars').on('click', function(e) {
+        e.preventDefault();
+        var $trigger = jQuery(this);
+        var $menu = jQuery('.header_menu');
+
+        $menu.stop(true, true).slideToggle('fast');
+        $trigger.toggleClass('menu_bars_close');
+        jQuery('#fixed_header').toggleClass('menu_open');
+        $trigger.attr('aria-expanded', $trigger.hasClass('menu_bars_close') ? 'true' : 'false');
+
+        if (jQuery('#wpadminbar').length) {
+            $menu.css('top', '116px');
+        }
+    });
+
+    jQuery('#fixed_header .header_menu a').on('click', function() {
+        var href = jQuery(this).attr('href');
+        if (href && href !== '#' && href.indexOf('tel:') !== 0) {
+            window.location.href = href;
+        }
+    });
+
+    jQuery('.gallery-carousel .slides, .gallery-stack-grid').magnificPopup({
+        delegate: 'li:not(.clone) > a.gallery, a.gallery-stack-layer',
+        type: 'image',
+        gallery: {
+            enabled: true,
+            navigateByImgClick: true,
+            preload: [0,1],
+            tCounter: '%curr% / %total%'
+        }
+    });
+
+    jQuery('.photos-slider').each(function() {
+        var $track = jQuery(this);
+        var $slides = $track.children('li, figure');
+        var $status = jQuery('<div class="gallery-slider-status" aria-hidden="true"><span>1 / ' + $slides.length + '</span></div>');
+        var ticking = false;
+
+        if (!$slides.length) {
+            return;
+        }
+
+        $track.after($status);
+
+        function updateStatus() {
+            var trackLeft = $track.offset().left;
+            var trackCenter = trackLeft + ($track.outerWidth() / 2);
+            var activeIndex = 0;
+            var closestDistance = Infinity;
+
+            $slides.each(function(index) {
+                var $slide = jQuery(this);
+                var slideCenter = $slide.offset().left + ($slide.outerWidth() / 2);
+                var distance = Math.abs(trackCenter - slideCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    activeIndex = index;
+                }
+            });
+
+            $status.find('span').text((activeIndex + 1) + ' / ' + $slides.length);
+            ticking = false;
+        }
+
+        $track.on('scroll', function() {
+            if (!ticking) {
+                window.requestAnimationFrame(updateStatus);
+                ticking = true;
+            }
+        });
+
+        jQuery(window).on('resize', updateStatus);
+        updateStatus();
+    });
+});
+
+// ロード時とスクロール時
+jQuery(window).on('load scroll',function(){
+    // 要素が画面内に来た時にonクラスを付与
+    jQuery('.lazy').each(function(){
+        var elemPos = jQuery(this).offset().top;
+        var scroll = jQuery(window).scrollTop();
+        var windowHeight = jQuery(window).height();
+        if (scroll > elemPos - windowHeight){
+            jQuery(this).addClass('on');
+        }
+    });
+});
+
+//Masonryはページロード後にする
+jQuery(window).on('load',function(){
+    jQuery('.js-masonry').masonry({
+      // options
+      itemSelector: '.item',
+    });
+});

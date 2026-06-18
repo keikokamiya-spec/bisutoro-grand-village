@@ -10,8 +10,12 @@ $gallery_images = bgv_get_gallery_images(get_the_ID());
   <div class="container">
     <article>
       <div class="single-page pg-gal">
-        <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
-        <?php bgv_render_gallery_stack_list($gallery_images); ?>
+        <?php if (! empty($gallery_images)) : ?>
+          <p><i class="fa fa-search-plus" aria-hidden="true"></i> 画像をクリック・タップで拡大します</p>
+          <?php bgv_render_gallery_stack_list($gallery_images); ?>
+        <?php else : ?>
+          <p>ギャラリー画像は管理画面のACFから登録できます。</p>
+        <?php endif; ?>
       </div>
     </article>
   </div>

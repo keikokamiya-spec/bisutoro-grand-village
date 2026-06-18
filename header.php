@@ -12,9 +12,9 @@
 
 <header id="fixed_header">
   <?php if (is_front_page()) : ?>
-    <h1 class="logo"><a href="<?php echo esc_url(home_url('/')); ?>"><img src="<?php echo bgv_asset('images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" /></a></h1>
+    <h1 class="logo"><a href="<?php echo esc_url(home_url('/')); ?>"><img src="<?php echo bgv_asset('images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" /><span class="logo-furigana">〜ビストロ　グランヴィラージュ〜</span></a></h1>
   <?php else : ?>
-    <div class="logo"><a href="<?php echo esc_url(home_url('/')); ?>"><img src="<?php echo bgv_asset('images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" /></a></div>
+    <div class="logo"><a href="<?php echo esc_url(home_url('/')); ?>"><img src="<?php echo bgv_asset('images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" /><span class="logo-furigana">〜ビストロ　グランヴィラージュ〜</span></a></div>
   <?php endif; ?>
 
   <a id="menu_bars">

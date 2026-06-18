@@ -16,6 +16,8 @@ $map_link_url = bgv_get_field('google_map_link_url', '', $access_post_id);
 $parking_info = bgv_get_field('parking_info', '', $access_post_id);
 $remarks = bgv_get_field('remarks', '', $access_post_id);
 $tel_href = preg_replace('/[^0-9+]/', '', $phone_number);
+$access_day_labels = bgv_access_day_labels();
+$access_schedule_rows = bgv_get_access_schedule_rows($access_post_id);
 ?>
 <section id="home_access">
   <div class="container">
@@ -67,21 +69,21 @@ $tel_href = preg_replace('/[^0-9+]/', '', $phone_number);
           <table class="time">
             <tr>
               <th width="37%"></th>
-              <th width="9%">月</th>
-              <th width="9%">火</th>
-              <th width="9%">水</th>
-              <th width="9%">木</th>
-              <th width="9%">金</th>
-              <th width="9%">土</th>
-              <th width="9%">日</th>
+              <?php foreach ($access_day_labels as $day_label) : ?>
+                <th width="9%"><?php echo esc_html($day_label); ?></th>
+              <?php endforeach; ?>
             </tr>
             <tr>
               <th><?php echo wp_kses_post($lunch_hours); ?></th>
-              <td>×</td><td>×</td><td>○</td><td>○</td><td>○</td><td>○</td><td>×</td>
+              <?php foreach ($access_day_labels as $day_key => $day_label) : ?>
+                <td><?php echo esc_html(isset($access_schedule_rows['lunch'][$day_key]) ? $access_schedule_rows['lunch'][$day_key] : ''); ?></td>
+              <?php endforeach; ?>
             </tr>
             <tr>
               <th><?php echo wp_kses_post($dinner_hours); ?></th>
-              <td>×</td><td>○</td><td>○</td><td>○</td><td>○</td><td>○</td><td>×</td>
+              <?php foreach ($access_day_labels as $day_key => $day_label) : ?>
+                <td><?php echo esc_html(isset($access_schedule_rows['dinner'][$day_key]) ? $access_schedule_rows['dinner'][$day_key] : ''); ?></td>
+              <?php endforeach; ?>
             </tr>
           </table>
 

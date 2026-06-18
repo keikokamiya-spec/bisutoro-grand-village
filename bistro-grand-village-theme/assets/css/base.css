@@ -1578,6 +1578,16 @@ header#fixed_header .logo a {
   text-decoration: none;
 }
 
+header#fixed_header .logo .logo_mark {
+  flex-shrink: 0;
+}
+
+header#fixed_header .logo .logo_texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 header#fixed_header .logo img {
   float: none;
   height: 70px;
@@ -1591,6 +1601,17 @@ header#fixed_header .logo .logo_copy {
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: rgba(38, 29, 24, 0.78);
+}
+
+header#fixed_header .logo .logo_furigana {
+  display: block;
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(9px, 0.88vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  color: rgba(75, 92, 44, 0.9);
+  white-space: nowrap;
 }
 
 header#fixed_header .header_actions {
@@ -2266,6 +2287,16 @@ footer.site_footer .footer_brand img {
   margin-bottom: 14px;
 }
 
+footer.site_footer .footer_furigana {
+  margin: 0 0 12px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  color: rgba(38, 29, 24, 0.72);
+}
+
 footer.site_footer .footer_store_name {
   margin: 0;
   font-family: 'EB Garamond', serif;
@@ -2628,6 +2659,15 @@ ul.sub_pages li a:hover {
 
   header#fixed_header .logo .logo_copy {
     display: none;
+  }
+
+  header#fixed_header .logo .logo_texts {
+    gap: 0;
+  }
+
+  header#fixed_header .logo .logo_furigana {
+    font-size: 9px;
+    letter-spacing: 0.08em;
   }
 
   header#fixed_header a#sp_phone .phone_label {

@@ -11,7 +11,7 @@ jQuery(function() {
         }, '100');
     });
     // FlexSlider
-    jQuery('.flexslider').flexslider({
+    jQuery('.flexslider').not('.gallery-carousel').flexslider({
         animation   : "slide",
         directionNav: true,
         prevText    : "",
@@ -40,14 +40,15 @@ jQuery(function() {
         }
     });
 
-    jQuery('a.gallery').magnificPopup({
-        //delegate: 'a', // ポップアップを開く子要素
+    jQuery('.gallery-carousel .slides, .gallery-stack-grid').magnificPopup({
+        delegate: 'li:not(.clone) > a.gallery, a.gallery-stack-layer',
         type: 'image',
         gallery: {
             enabled: true,
             navigateByImgClick: true,
-            preload: [0,1]
-        }, 
+            preload: [0,1],
+            tCounter: '%curr% / %total%'
+        }
     });
 
     jQuery('.photos-slider').each(function() {

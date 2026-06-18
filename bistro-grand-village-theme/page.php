@@ -6,6 +6,12 @@ get_header();
 $slug = bgv_current_slug();
 $title = get_the_title();
 $default_file = '';
+$page_content = '';
+if (have_posts()) {
+  the_post();
+  $page_content = get_the_content();
+  rewind_posts();
+}
 if ($slug === 'dinner') {
   $title = 'Food Menu';
   $default_file = 'food.html';
@@ -43,30 +49,15 @@ bgv_render_page_title($title);
           <article>
             <div class="single-page">
               <?php if ($default_file) : ?>
-                <?php if ($default_file === 'category-lunch.html') : ?>
+                <?php if (trim(wp_strip_all_tags($page_content)) !== '') : ?>
+                  <?php echo apply_filters('the_content', $page_content); ?>
+                <?php elseif ($default_file === 'category-lunch.html') : ?>
                   <?php bgv_render_lunch_pdf_text_menu(); ?>
                 <?php else : ?>
                   <?php echo bgv_static_default_content($default_file); ?>
                 <?php endif; ?>
               <?php elseif ($slug === 'interior-exterior') : ?>
-                <div class="photos interior-exterior-photos">
-                  <section class="photos-section">
-                    <h2 class="photos-section-title">外観<span>Exterior</span></h2>
-                    <div class="photos-slider">
-                      <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/gai1.jpg'); ?>" alt="外観１" /></figure>
-                      <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/gai2.jpg'); ?>" alt="外観２" /></figure>
-                    </div>
-                  </section>
-                  <section class="photos-section">
-                    <h2 class="photos-section-title">内観<span>Interior</span></h2>
-                    <div class="photos-slider">
-                      <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai1.jpg'); ?>" alt="内観１" /></figure>
-                      <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai2.jpg'); ?>" alt="内観２" /></figure>
-                      <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai3.jpg'); ?>" alt="内観３" /></figure>
-                      <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai4.jpg'); ?>" alt="内観４" /></figure>
-                    </div>
-                  </section>
-                </div>
+                <?php bgv_render_interior_exterior_sections(get_the_ID()); ?>
               <?php else : ?>
                 <?php
                 while (have_posts()) :

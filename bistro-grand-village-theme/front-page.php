@@ -5,6 +5,8 @@ Template Name: トップページ
 get_header();
 $gallery_page = get_page_by_path('gallery');
 $gallery_post_id = $gallery_page ? $gallery_page->ID : 0;
+$interior_exterior_page = get_page_by_path('interior-exterior');
+$interior_exterior_post_id = $interior_exterior_page ? $interior_exterior_page->ID : 0;
 ?>
 
 <section id="top_cover">
@@ -77,7 +79,7 @@ $gallery_post_id = $gallery_page ? $gallery_page->ID : 0;
   <div class="container">
     <div class="section_shell spaces_shell">
       <h3 class="common">内観＆外観<span>Interior & Exterior</span></h3>
-      <?php bgv_render_interior_exterior_sections(); ?>
+      <?php bgv_render_interior_exterior_sections($interior_exterior_post_id); ?>
     </div>
   </div>
 </section>

@@ -11,6 +11,7 @@ $footer_tel_href = preg_replace('/[^0-9+]/', '', $footer_phone_number);
   <div class="footer_inner">
     <div class="footer_brand">
       <img src="<?php echo bgv_asset_uri('assets/images/assets/logo_footer.png'); ?>" width="120" class="marg-bottom15" alt="ビストロ グランヴィラージュ" />
+      <p class="footer_furigana">〜ビストロ　グランヴィラージュ〜</p>
       <p class="footer_store_name"><?php echo esc_html($footer_store_name); ?></p>
     </div>
 

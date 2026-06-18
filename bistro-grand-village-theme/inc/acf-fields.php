@@ -14,6 +14,17 @@ function bgv_acf_text_field($key, $label, $name, $instructions = '') {
   );
 }
 
+function bgv_acf_image_field($key, $label, $name) {
+  return array(
+    'key' => $key,
+    'label' => $label,
+    'name' => $name,
+    'type' => 'image',
+    'return_format' => 'id',
+    'preview_size' => 'medium',
+  );
+}
+
 function bgv_acf_menu_fields($prefix, $with_category = false, $category_choices = array()) {
   $fields = array();
 
@@ -401,8 +412,47 @@ function bgv_register_acf_fields() {
       bgv_acf_text_field('field_bgv_google_map_link_url', 'GoogleマップリンクURL', 'google_map_link_url'),
       array('key' => 'field_bgv_parking_info', 'label' => '駐車場情報', 'name' => 'parking_info', 'type' => 'textarea', 'rows' => 3, 'new_lines' => 'br'),
       array('key' => 'field_bgv_remarks', 'label' => '備考', 'name' => 'remarks', 'type' => 'textarea', 'rows' => 4, 'new_lines' => 'br'),
+      array('key' => 'field_bgv_access_schedule_message', 'label' => '曜日ごとの営業状況', 'name' => 'access_schedule_message', 'type' => 'message', 'message' => '各曜日の営業状況を入力してください。例：○ / × / 休 / 要確認'),
+      bgv_acf_text_field('field_bgv_access_lunch_mon_status', 'ランチ 月', 'access_lunch_mon_status'),
+      bgv_acf_text_field('field_bgv_access_lunch_tue_status', 'ランチ 火', 'access_lunch_tue_status'),
+      bgv_acf_text_field('field_bgv_access_lunch_wed_status', 'ランチ 水', 'access_lunch_wed_status'),
+      bgv_acf_text_field('field_bgv_access_lunch_thu_status', 'ランチ 木', 'access_lunch_thu_status'),
+      bgv_acf_text_field('field_bgv_access_lunch_fri_status', 'ランチ 金', 'access_lunch_fri_status'),
+      bgv_acf_text_field('field_bgv_access_lunch_sat_status', 'ランチ 土', 'access_lunch_sat_status'),
+      bgv_acf_text_field('field_bgv_access_lunch_sun_status', 'ランチ 日', 'access_lunch_sun_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_mon_status', 'ディナー 月', 'access_dinner_mon_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_tue_status', 'ディナー 火', 'access_dinner_tue_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_wed_status', 'ディナー 水', 'access_dinner_wed_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_thu_status', 'ディナー 木', 'access_dinner_thu_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_fri_status', 'ディナー 金', 'access_dinner_fri_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_sat_status', 'ディナー 土', 'access_dinner_sat_status'),
+      bgv_acf_text_field('field_bgv_access_dinner_sun_status', 'ディナー 日', 'access_dinner_sun_status'),
     ),
     'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-access.php'))),
+  ));
+
+  acf_add_local_field_group(array(
+    'key' => 'group_bgv_interior_exterior',
+    'title' => '内観＆外観編集',
+    'fields' => array(
+      bgv_acf_text_field('field_bgv_exterior_title', '外観 見出し', 'exterior_title'),
+      bgv_acf_text_field('field_bgv_exterior_subtitle', '外観 英字見出し', 'exterior_subtitle'),
+      bgv_acf_image_field('field_bgv_exterior_image_1', '外観画像1', 'exterior_image_1'),
+      bgv_acf_text_field('field_bgv_exterior_image_1_alt', '外観画像1 alt', 'exterior_image_1_alt'),
+      bgv_acf_image_field('field_bgv_exterior_image_2', '外観画像2', 'exterior_image_2'),
+      bgv_acf_text_field('field_bgv_exterior_image_2_alt', '外観画像2 alt', 'exterior_image_2_alt'),
+      bgv_acf_text_field('field_bgv_interior_title', '内観 見出し', 'interior_title'),
+      bgv_acf_text_field('field_bgv_interior_subtitle', '内観 英字見出し', 'interior_subtitle'),
+      bgv_acf_image_field('field_bgv_interior_image_1', '内観画像1', 'interior_image_1'),
+      bgv_acf_text_field('field_bgv_interior_image_1_alt', '内観画像1 alt', 'interior_image_1_alt'),
+      bgv_acf_image_field('field_bgv_interior_image_2', '内観画像2', 'interior_image_2'),
+      bgv_acf_text_field('field_bgv_interior_image_2_alt', '内観画像2 alt', 'interior_image_2_alt'),
+      bgv_acf_image_field('field_bgv_interior_image_3', '内観画像3', 'interior_image_3'),
+      bgv_acf_text_field('field_bgv_interior_image_3_alt', '内観画像3 alt', 'interior_image_3_alt'),
+      bgv_acf_image_field('field_bgv_interior_image_4', '内観画像4', 'interior_image_4'),
+      bgv_acf_text_field('field_bgv_interior_image_4_alt', '内観画像4 alt', 'interior_image_4_alt'),
+    ),
+    'location' => array(array(array('param' => 'page_template', 'operator' => '==', 'value' => 'page-interior-exterior.php'))),
   ));
 
   $gallery_fields = array();

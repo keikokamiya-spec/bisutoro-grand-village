@@ -5,7 +5,6 @@ Template Name: ディナーメニュー
 get_header();
 bgv_render_page_title('Food Menu');
 $has_acf_menu = bgv_has_page_menu_items('dinner', get_the_ID());
-$acf_menu_count = count(bgv_get_page_menu_items('dinner', get_the_ID()));
 ?>
 <section id="main">
   <div class="container">
@@ -13,7 +12,7 @@ $acf_menu_count = count(bgv_get_page_menu_items('dinner', get_the_ID()));
       <div class="span12">
         <article>
           <div class="single-page">
-            <?php if ($has_acf_menu && $acf_menu_count >= 40) : ?>
+            <?php if ($has_acf_menu) : ?>
               <p class="balloon">ご予算に応じて<br class="sp_only">コース料理でお作りする事も可能です。<br />お気軽にお問い合わせ下さい</p>
               <p align="right">※全て税込み価格になります。</p>
               <?php bgv_render_page_acf_menu_items('dinner', 'menu', array(), get_the_ID()); ?>

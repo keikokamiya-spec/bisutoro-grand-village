@@ -21,15 +21,21 @@
     <?php if (is_front_page()) : ?>
       <h1 class="logo">
         <a href="<?php echo esc_url(home_url('/')); ?>">
-          <img src="<?php echo bgv_asset_uri('assets/images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" />
-          <span class="logo_copy">Bistrot Grand Village</span>
+          <span class="logo_mark"><img src="<?php echo bgv_asset_uri('assets/images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" /></span>
+          <span class="logo_texts">
+            <span class="logo_copy">Bistrot Grand Village</span>
+            <span class="logo_furigana">〜ビストロ　グランヴィラージュ〜</span>
+          </span>
         </a>
       </h1>
     <?php else : ?>
       <div class="logo">
         <a href="<?php echo esc_url(home_url('/')); ?>">
-          <img src="<?php echo bgv_asset_uri('assets/images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" />
-          <span class="logo_copy">Bistrot Grand Village</span>
+          <span class="logo_mark"><img src="<?php echo bgv_asset_uri('assets/images/assets/logo.png'); ?>" alt="ビストロ グランヴィラージュ" /></span>
+          <span class="logo_texts">
+            <span class="logo_copy">Bistrot Grand Village</span>
+            <span class="logo_furigana">〜ビストロ　グランヴィラージュ〜</span>
+          </span>
         </a>
       </div>
     <?php endif; ?>

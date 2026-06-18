@@ -5,6 +5,7 @@
   </p>
 
   <img src="<?php echo bgv_asset('images/assets/logo_footer.png'); ?>" width="100" class="marg-bottom15" alt="ビストロ グランヴィラージュ" /><br />
+  <p class="footer-furigana">〜ビストロ　グランヴィラージュ〜</p>
   Copyright &copy; <a href="<?php echo esc_url(home_url('/')); ?>">ビストロ グランヴィラージュ</a> <br class="sp_only" />All Rights reserved.｜Designed by <a href="https://www.8th-ocean.co.jp/" target="_blank">8thOcean.</a>
 </footer>
 <?php wp_footer(); ?>

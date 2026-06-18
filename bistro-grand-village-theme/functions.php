@@ -876,25 +876,154 @@ function bgv_default_gallery_files() {
   );
 }
 
-function bgv_render_interior_exterior_sections() {
+function bgv_default_interior_exterior_sections() {
+  return array(
+    'exterior' => array(
+      'title' => '外観',
+      'subtitle' => 'Exterior',
+      'images' => array(
+        array(
+          'src' => bgv_asset_uri('assets/images/uploads/2022/04/gai1.jpg'),
+          'alt' => '外観1',
+        ),
+        array(
+          'src' => bgv_asset_uri('assets/images/uploads/2022/04/gai2.jpg'),
+          'alt' => '外観2',
+        ),
+      ),
+    ),
+    'interior' => array(
+      'title' => '内観',
+      'subtitle' => 'Interior',
+      'images' => array(
+        array(
+          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai1.jpg'),
+          'alt' => '内観1',
+        ),
+        array(
+          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai2.jpg'),
+          'alt' => '内観2',
+        ),
+        array(
+          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai3.jpg'),
+          'alt' => '内観3',
+        ),
+        array(
+          'src' => bgv_asset_uri('assets/images/uploads/2022/04/nai4.jpg'),
+          'alt' => '内観4',
+        ),
+      ),
+    ),
+  );
+}
+
+function bgv_get_interior_exterior_sections($post_id = null) {
+  $target_post_id = $post_id ? (int) $post_id : 0;
+  if (! $target_post_id) {
+    $page = get_page_by_path('interior-exterior');
+    $target_post_id = $page ? (int) $page->ID : 0;
+  }
+
+  $defaults = bgv_default_interior_exterior_sections();
+  $sections = array();
+
+  foreach ($defaults as $section_key => $section_default) {
+    $images = array();
+    $default_images = isset($section_default['images']) && is_array($section_default['images']) ? $section_default['images'] : array();
+
+    foreach ($default_images as $index => $image_default) {
+      $field_index = $index + 1;
+      $image = bgv_get_field($section_key . '_image_' . $field_index, '', $target_post_id);
+      $url = bgv_image_url($image, isset($image_default['src']) ? $image_default['src'] : '');
+      $alt = bgv_get_field($section_key . '_image_' . $field_index . '_alt', isset($image_default['alt']) ? $image_default['alt'] : '', $target_post_id);
+
+      if ($url === '') {
+        continue;
+      }
+
+      $images[] = array(
+        'src' => $url,
+        'alt' => $alt,
+      );
+    }
+
+    $sections[$section_key] = array(
+      'title' => bgv_get_field($section_key . '_title', isset($section_default['title']) ? $section_default['title'] : '', $target_post_id),
+      'subtitle' => bgv_get_field($section_key . '_subtitle', isset($section_default['subtitle']) ? $section_default['subtitle'] : '', $target_post_id),
+      'images' => $images,
+    );
+  }
+
+  return $sections;
+}
+
+function bgv_access_day_labels() {
+  return array(
+    'mon' => '月',
+    'tue' => '火',
+    'wed' => '水',
+    'thu' => '木',
+    'fri' => '金',
+    'sat' => '土',
+    'sun' => '日',
+  );
+}
+
+function bgv_default_access_schedule_rows() {
+  return array(
+    'lunch' => array(
+      'mon' => '×',
+      'tue' => '×',
+      'wed' => '○',
+      'thu' => '○',
+      'fri' => '○',
+      'sat' => '○',
+      'sun' => '×',
+    ),
+    'dinner' => array(
+      'mon' => '×',
+      'tue' => '○',
+      'wed' => '○',
+      'thu' => '○',
+      'fri' => '○',
+      'sat' => '○',
+      'sun' => '×',
+    ),
+  );
+}
+
+function bgv_get_access_schedule_rows($post_id = null) {
+  $target_post_id = $post_id ? (int) $post_id : get_the_ID();
+  $defaults = bgv_default_access_schedule_rows();
+  $rows = array();
+
+  foreach ($defaults as $service => $statuses) {
+    $rows[$service] = array();
+    foreach ($statuses as $day_key => $default_status) {
+      $rows[$service][$day_key] = bgv_get_field('access_' . $service . '_' . $day_key . '_status', $default_status, $target_post_id);
+    }
+  }
+
+  return $rows;
+}
+
+function bgv_render_interior_exterior_sections($post_id = null) {
+  $sections = bgv_get_interior_exterior_sections($post_id);
   ?>
   <div class="photos interior-exterior-photos">
-    <section class="photos-section">
-      <h4 class="photos-section-title">外観<span>Exterior</span></h4>
-      <div class="photos-slider">
-        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/gai1.jpg'); ?>" alt="外観1" loading="lazy" /></figure>
-        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/gai2.jpg'); ?>" alt="外観2" loading="lazy" /></figure>
-      </div>
-    </section>
-    <section class="photos-section">
-      <h4 class="photos-section-title">内観<span>Interior</span></h4>
-      <div class="photos-slider">
-        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai1.jpg'); ?>" alt="内観1" loading="lazy" /></figure>
-        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai2.jpg'); ?>" alt="内観2" loading="lazy" /></figure>
-        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai3.jpg'); ?>" alt="内観3" loading="lazy" /></figure>
-        <figure><img decoding="async" src="<?php echo bgv_asset_uri('assets/images/uploads/2022/04/nai4.jpg'); ?>" alt="内観4" loading="lazy" /></figure>
-      </div>
-    </section>
+    <?php foreach ($sections as $section) : ?>
+      <?php if (empty($section['images'])) : ?>
+        <?php continue; ?>
+      <?php endif; ?>
+      <section class="photos-section">
+        <h4 class="photos-section-title"><?php echo esc_html($section['title']); ?><span><?php echo esc_html($section['subtitle']); ?></span></h4>
+        <div class="photos-slider">
+          <?php foreach ($section['images'] as $image) : ?>
+            <figure><img decoding="async" src="<?php echo esc_url($image['src']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" loading="lazy" /></figure>
+          <?php endforeach; ?>
+        </div>
+      </section>
+    <?php endforeach; ?>
   </div>
   <?php
 }
